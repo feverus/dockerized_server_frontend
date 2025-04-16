@@ -1,0 +1,17 @@
+# Стартовый образ
+FROM node:19-bullseye as build
+
+# Автор
+LABEL authors="ad-158"
+
+# Рабочая директория
+WORKDIR /usr/src/app
+
+# JSON файлы
+ADD *.json ./
+
+# Установка всех пакетов и зависимостей, указанных в JSON
+RUN npm install
+
+ADD ./public ./public
+ADD ./src ./src
