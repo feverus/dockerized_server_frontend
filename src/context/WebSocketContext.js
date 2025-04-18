@@ -102,11 +102,3 @@ export const WebSocketProvider = ({children}) => {
         </WebSocketContext.Provider>
     );
 };
-
-export const useWebSocket = () => {
-    const context = useContext(WebSocketContext);
-    if (!context) {
-        throw new Error('useWebSocket должен использоваться внутри WebSocketProvider');
-    }
-    return context;
-};

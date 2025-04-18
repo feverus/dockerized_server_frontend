@@ -1,0 +1,23 @@
+---
+printWidth: 140
+proseWrap: always
+tabWidth: 2
+
+overrides:
+  - files: '*.gitlab-ci.yml'
+    options:
+      proseWrap: preserve
+  - files: '*.{ts,tsx}'
+    options:
+      singleQuote: true
+      bracketSpacing: true
+      trailingComma: all
+      semi: false
+      tabWidth: 4
+  - files: '*.scss'
+    options:
+      singleQuote: false
+      bracketSpacing: true
+      trailingComma: all
+      semi: false
+      tabWidth: 2

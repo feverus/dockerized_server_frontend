@@ -1,6 +1,5 @@
 import React, {useContext, useEffect, useState, useRef} from 'react';
-import AuthContext from '../context/AuthContext'
-import {useWebSocket} from "../context/WebSocketContext";
+
 import {styled} from "@mui/material";
 import {
     Box,
@@ -22,6 +21,8 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import CloseIcon from '@mui/icons-material/Close';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
+
+import AuthContext from '../context/AuthContext'
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,7 +56,7 @@ const ChatPage = () => {
         registerMessageHandler,
         suggestions,
         setSuggestions
-    } = useWebSocket();
+    } = useContext()
     const [messages, setMessages] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
