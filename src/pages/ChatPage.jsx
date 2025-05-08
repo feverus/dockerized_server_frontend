@@ -22,7 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PushPinIcon from '@mui/icons-material/PushPin';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 
-import AuthContext from '../context/AuthContext'
+import { useAuthService } from "../services";
 
 const Item = styled(Paper)(({theme}) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -44,7 +44,7 @@ const SquaredItem = styled(Paper)(({theme}) => ({
 }));
 
 const ChatPage = () => {
-    const {authTokens, logoutUser} = useContext(AuthContext);
+    const {authTokens, logoutUser} = useAuthService();
     const [profile, setProfile] = useState([]);
     const {
         severityLevel,

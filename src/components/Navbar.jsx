@@ -8,7 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 
 import SubMenu from "./SubMenu";
 import "./Navbar.css";
-import AuthContext from '../context/AuthContext'
+import useAuthStore from 'store'
 import {SidebarData} from "./SidebarData";
 
 // Black theme
@@ -30,8 +30,7 @@ const List = styled(MuiList)({
 });
 
 function Navbar({open, handler, drawerWidth, theme, selectedIndex, handleListItemClick, width}) {
-    let {user, logoutUser} = React.useContext(AuthContext)
-    const {authTokens} = React.useContext(AuthContext);
+    const {authTokens, user, logoutUser} = useAuthStore()
     const [greeting, setGreeting] = React.useState(null);
     const trigger = useScrollTrigger({
         disableHysteresis: true,

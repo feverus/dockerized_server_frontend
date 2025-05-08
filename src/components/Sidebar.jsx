@@ -9,6 +9,8 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./Sidebar.css";
 import {SidebarData} from './SidebarData';
 import SubMenu from './SubMenu';
+import { useAuthService } from "../services";
+import { useAuthStore } from "./store";
 
 // Black theme
 const List = styled(MuiList)({
@@ -47,7 +49,8 @@ const List = styled(MuiList)({
 
 
 export default function Sidebar({open, theme, DrawerHeader, drawerWidth, handler, selectedIndex, handleListItemClick}) {
-    let {user, logoutUser} = React.useContext(AuthContext)
+    const {user} = useAuthStore()
+    const {logoutUser} = useAuthService()
 
     return (
         <>

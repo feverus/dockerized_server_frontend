@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import Sidebar from './components/Sidebar';
 import LoginPage from './pages/LoginPage'
 import ChatPage from './pages/ChatPage';
+import { useAuthStore } from "./store";
 
 const usePrevious = (value) => {
     const ref = React.useRef()
@@ -43,14 +44,14 @@ const themeDark = createTheme({
 });
 
 export default function App() {
-    let {user} = React.useContext(AuthContext)
+    const {user} = useAuthStore()
     const theme = useTheme();
     const [light, setLight] = React.useState(true);
     const [open, setOpen] = React.useState(false);
     const [width, setWidth] = React.useState(0)
     const [height, setHeight] = React.useState(0)
 
-    let updateDimensions = () => {
+    const updateDimensions = () => {
         setWidth(window.innerWidth);
         setHeight(window.innerHeight);
     }
