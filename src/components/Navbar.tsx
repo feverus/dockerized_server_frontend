@@ -10,6 +10,7 @@ import SubMenu from "./SubMenu";
 import "./Navbar.css";
 import useAuthStore from 'store'
 import {SidebarData} from "./SidebarData";
+import {AUTH_API} from '../constants'
 
 // Black theme
 const List = styled(MuiList)({
@@ -73,7 +74,7 @@ function Navbar({open, handler, drawerWidth, theme, selectedIndex, handleListIte
 
     async function getUsername() {
         try {
-            const response = await fetch('http://localhost:80/auth/get_user_profile', {
+            const response = await fetch(`${AUTH_API}get_user_profile`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

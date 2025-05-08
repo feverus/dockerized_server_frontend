@@ -1,17 +1,17 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuthStore } from '../store'
+import { useAuthStore } from '../../store'
+import { AUTH_API, REFRESH_INTERVAL } from '../../constants'
 import type { LoginUserProps } from './auth.types'
-
-const REFRESH_INTERVAL = 1000 * 60 * 1 // 1 минута
 
 export const useAuthService = () => {
     const navigate = useNavigate()
     const { authTokens, initialized, setAuthTokens, setUser, init } = useAuthStore()
+    const interval = useRef<NodeJS.Timer | null>(null)
 
     const loginUser = async (props: LoginUserProps) => {
-        const response = await fetch('http://localhost:80/auth/login', {
+        const response = await fetch(`${AUTH_API}login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ export const useAuthService = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('access')
-        const response = await fetch('http://localhost:80/auth/logout', {
+        const response = await fetch(`${AUTH_API}glogout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -57,7 +57,10 @@ export const useAuthService = () => {
     }, [navigate, setAuthTokens, setUser])
 
     const updateToken = useCallback(async () => {
-        const response = await fetch('http://localhost:80/auth/refresh', {
+        if (!authTokens) {
+            return
+        }
+        const response = await fetch(`${AUTH_API}grefresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -81,13 +84,11 @@ export const useAuthService = () => {
     useEffect(() => {
         if (!initialized) {
             init()
+            interval.current = setInterval(() => updateToken(), REFRESH_INTERVAL)
         }
-        const interval = setInterval(() => {
-            if (authTokens) {
-                updateToken()
-            }
-        }, REFRESH_INTERVAL)
-        return () => clearInterval(interval)
+        return () => {
+            interval.current && clearInterval(interval.current)
+        }
     }, [authTokens, init, initialized, updateToken])
 
     return {
