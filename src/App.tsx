@@ -1,16 +1,13 @@
 import {Routes, Route, Navigate, useLocation} from "react-router-dom";
 import React from "react";
-import {IconButton, styled, useTheme, Box, CssBaseline} from "@mui/material";
+import {styled, useTheme, Box, CssBaseline} from "@mui/material";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
 import './App.css';
 import PrivateRoute from './utils/PrivateRoute'
-import AuthContext from './context/AuthContext'
 import Navbar from "./components/Navbar";
 import Sidebar from './components/Sidebar';
 import LoginPage from './pages/LoginPage'
-import ChatPage from './pages/ChatPage';
+import {ChatPage} from './pages';
 import { useAuthStore } from "./store";
 
 const usePrevious = (value) => {

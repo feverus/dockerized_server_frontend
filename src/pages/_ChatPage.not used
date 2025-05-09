@@ -1,0 +1,63 @@
+
+    const { authTokens } = useAuthStore()
+    const { logoutUser } = useAuthService()
+    
+    
+        // URL API for data
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop.toString()),
+    })
+
+    const url = params.has('profile')
+        ? `http://localhost:80/api/profile/get_profile/?profile=${params.get('profile')}`
+        : 'http://localhost:80/api/profile/get_profile/'
+        
+    async function getData() {
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + String(authTokens),
+                },
+            })
+            let data = ''
+
+            try {
+                data = await response.json()
+            } catch (e) {
+                data = await response
+            }
+
+            if (response.status === 200) {
+                setProfile(data)
+            } else if (response.statusText === 'Unauthorized') {
+                logoutUser()
+            }
+        } catch (error) {
+            console.error('Ошибка загрузки профиля:', error)
+            severityLevel.current = 'warning'
+            setSystemMessage('Произошла ошибка загрузки профиля')
+            setShowSystemMessage(true)
+            setTimeout(() => setShowSystemMessage(false), 5000)
+        }
+    }
+
+
+    
+    useEffect(() => {
+        const handleSuggestionsOutside = (event) => {
+            const suggestionsContainer = document.querySelector('.suggestions-container')
+            if (suggestionsContainer && !suggestionsContainer.contains(event.target)) {
+                setSuggestions([])
+            }
+        }
+
+        if (suggestions.length > 0) {
+            document.addEventListener('mousedown', handleSuggestionsOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleSuggestionsOutside)
+        }
+    }, [suggestions.length])

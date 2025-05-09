@@ -1,54 +1,52 @@
-import { useEffect } from 'react'
+import useWebSocket from 'react-use-websocket'
 
-import { useWebSocketStore } from '../../store/webSocket'
+import { useChatStore } from '../../store'
+import { CHAT_API } from '../../constants'
 
 export const useWebSocketService = () => {
-    const { socketRef, severityLevel, initialized, reconnectTimeoutRef, init, setSystemMessage, setShowSystemMessage } = useWebSocketStore()
+    const { setSystemMessage, setShowSystemMessage, setSeverityLevel } = useChatStore()
 
-    useEffect(() => {
-        if (!initialized) {
-            init()
-        }
-        return () => {
-            if (socketRef?.readyState === WebSocket.OPEN) {
-                socketRef.close()
-            }
-            reconnectTimeoutRef && clearTimeout(reconnectTimeoutRef)
-        }
-    }, [init, initialized, reconnectTimeoutRef, socketRef])
-
-    const sendMessage = (message: string, type = 'question') => {
-        if (severityLevel === 'success' && socketRef?.readyState === WebSocket.OPEN) {
-            try {
-                socketRef.send(
-                    JSON.stringify({
-                        type: type,
-                        message: message,
-                    }),
-                )
-                return true
-            } catch (error) {
-                console.error('Произошла ошибка при отправке сообщения на сервер:', error)
-                setSystemMessage('Произошла ошибка при отправке сообщения на сервер.')
-                setShowSystemMessage(true)
-                return false
-            }
-        } else {
-            setSystemMessage('Соединение с сервером разорвано. Попытка установки соединения...')
+    const { sendJsonMessage, getWebSocket } = useWebSocket(CHAT_API, {
+        onOpen: () => {
+            console.log('WebSocket соединение установлено.')
+            setSeverityLevel('success')
+            setSystemMessage('Установлено соединение с сервером')
             setShowSystemMessage(true)
-            init()
-            return false
-        }
+        },
+        onClose: () => {
+            console.log('WebSocket соединение разорвано')
+            setSeverityLevel('error')
+            setSystemMessage('Соединение с сервером разорвано. Попытка установки соединения...')
+            setShowSystemMessage(true, true)
+        },
+        shouldReconnect: (closeEvent) => {
+            console.log('💨closeEvent', closeEvent)
+            return true
+        },
+        onError: (error: unknown) => {
+            console.error('WebSocket ошибка:', error)
+            setSystemMessage('Ошибка соединения с сервером.')
+            setShowSystemMessage(true, true)
+        },
+        reconnectInterval: 3000,
+    })
+
+    const sendMessageWithType = (message: string, type = 'question') => {
+        sendJsonMessage({
+            type: type,
+            message: message,
+        })
     }
 
     const registerMessageHandler = (callback: ((this: WebSocket, ev: MessageEvent) => void) | null) => {
-        if (socketRef) {
-            socketRef.onmessage = callback
+        const ws = getWebSocket()
+        if (ws) {
+            ws.onmessage = callback
         }
     }
 
     return {
         registerMessageHandler,
-        sendMessage,
+        sendMessageWithType,
     }
 }

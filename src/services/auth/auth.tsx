@@ -7,7 +7,7 @@ import type { LoginUserProps } from './auth.types'
 
 export const useAuthService = () => {
     const navigate = useNavigate()
-    const { authTokens, initialized, setAuthTokens, setUser, init } = useAuthStore()
+    const { authTokens, initialized, setAuthTokens, setUser, setInitialized } = useAuthStore()
     const interval = useRef<NodeJS.Timer | null>(null)
 
     const loginUser = async (props: LoginUserProps) => {
@@ -81,9 +81,18 @@ export const useAuthService = () => {
         }
     }, [authTokens, logoutUser, setAuthTokens])
 
+    const init = useCallback(() => {
+        const authTokens = localStorage.getItem('access')
+        authTokens && setAuthTokens(authTokens)
+        const user = localStorage.getItem('current_user')
+        user && setUser(user)
+        setInitialized(true)
+    }, [setAuthTokens, setInitialized, setUser])
+
     useEffect(() => {
         if (!initialized) {
             init()
+        } else {
             interval.current = setInterval(() => updateToken(), REFRESH_INTERVAL)
         }
         return () => {

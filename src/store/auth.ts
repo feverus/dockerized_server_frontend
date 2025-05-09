@@ -7,9 +7,9 @@ type State = {
     initialized: boolean
 }
 type Action = {
-    init: () => void
     setAuthTokens: (authTokens: string | null) => void
     setUser: (user: string | null) => void
+    setInitialized: (initialized: boolean) => void
 }
 
 const initialState: State = {
@@ -21,20 +21,14 @@ const initialState: State = {
 export const useAuthStore = create(
     immer<State & Action>((set) => ({
         ...initialState,
-        init: () => {
-            set((state) => {
-                const authTokens = localStorage.getItem('access')
-                authTokens && (state.authTokens = authTokens)
-                const user = localStorage.getItem('current_user')
-                user && (state.user = user)
-                state.initialized = true
-            })
-        },
         setAuthTokens: (authTokens) => {
             set((state) => (state.authTokens = authTokens))
         },
         setUser: (user) => {
             set((state) => (state.user = user))
+        },
+        setInitialized: (initialized) => {
+            set((state) => (state.initialized = initialized))
         },
     })),
 )
