@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../constants'
+import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../assets'
 
 type SeverityLevels = 'error' | 'success' | 'warning'
 type Message = {
@@ -34,8 +34,10 @@ const loadSavedMessages = () => {
         if (savedMessages) {
             return JSON.parse(savedMessages)
         }
+        return []
     } catch (error) {
         console.error('Ошибка загрузки сообщений:', error)
+        return []
     }
 }
 
@@ -54,19 +56,27 @@ export const useChatStore = create(
     immer<State & Action>((set, get) => ({
         ...initialState,
         setSeverityLevel: (severityLevel) => {
-            set((state) => (state.severityLevel = severityLevel))
+            set((state) => {
+                state.severityLevel = severityLevel
+            })
         },
         setSystemMessage: (systemMessage) => {
-            set((state) => (state.systemMessage = systemMessage))
+            set((state) => {
+                state.systemMessage = systemMessage
+            })
         },
         setShowSystemMessage: (showSystemMessage, keep = false) => {
-            set((state) => (state.showSystemMessage = showSystemMessage))
+            set((state) => {
+                state.showSystemMessage = showSystemMessage
+            })
             if (showSystemMessage && !keep) {
                 setTimeout(() => get().setShowSystemMessage(false), 5000)
             }
         },
         setSuggestions: (suggestions) => {
-            set((state) => (state.suggestions = suggestions))
+            set((state) => {
+                state.suggestions = suggestions
+            })
         },
         setMessages: (messages) => {
             if (!messages.length) {
@@ -74,14 +84,18 @@ export const useChatStore = create(
             } else {
                 localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages))
             }
-            set((state) => (state.messages = messages))
+            set((state) => {
+                state.messages = messages
+            })
         },
         setIsLoading: (isLoading) => {
-            set((state) => (state.isLoading = isLoading))
+            set((state) => {
+                state.isLoading = isLoading
+            })
         },
         setPinnedSuggestions: (pinnedSuggestions) => {
             localStorage.setItem(PINNED_SUGGESTIONS_KEY, JSON.stringify(pinnedSuggestions))
-            set((state) => (state.pinnedSuggestions = pinnedSuggestions))
+            set((state) => {state.pinnedSuggestions = pinnedSuggestions})
         },
         setInputMessage: (inputMessage) => {
             if (inputMessage === '') {
@@ -89,7 +103,9 @@ export const useChatStore = create(
             } else {
                 localStorage.setItem(CHAT_INPUT_STORAGE_KEY, JSON.stringify(inputMessage))
             }
-            set((state) => (state.inputMessage = inputMessage))
+            set((state) => {
+                state.inputMessage = inputMessage
+            })
         },
     })),
 )

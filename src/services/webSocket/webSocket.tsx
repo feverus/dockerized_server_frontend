@@ -1,7 +1,7 @@
 import useWebSocket from 'react-use-websocket'
 
 import { useChatStore } from '../../store'
-import { CHAT_API } from '../../constants'
+import { CHAT_API } from '../../assets'
 
 export const useWebSocketService = () => {
     const { setSystemMessage, setShowSystemMessage, setSeverityLevel } = useChatStore()

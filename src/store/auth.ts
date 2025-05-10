@@ -22,13 +22,19 @@ export const useAuthStore = create(
     immer<State & Action>((set) => ({
         ...initialState,
         setAuthTokens: (authTokens) => {
-            set((state) => (state.authTokens = authTokens))
+            set((state) => {
+                state.authTokens = authTokens
+            })
         },
         setUser: (user) => {
-            set((state) => (state.user = user))
+            set((state) => {
+                state.user = user
+            })
         },
         setInitialized: (initialized) => {
-            set((state) => (state.initialized = initialized))
+            set((state) => {
+                state.initialized = initialized
+            })
         },
     })),
 )

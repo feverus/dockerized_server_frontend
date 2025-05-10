@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuthStore } from '../../store'
-import { AUTH_API, REFRESH_INTERVAL } from '../../constants'
+import { AUTH_API, REFRESH_INTERVAL } from '../../assets'
 import type { LoginUserProps } from './auth.types'
+import { returnGreeting } from '../../utils'
 
 export const useAuthService = () => {
     const navigate = useNavigate()
@@ -39,7 +40,7 @@ export const useAuthService = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('access')
-        const response = await fetch(`${AUTH_API}glogout`, {
+        const response = await fetch(`${AUTH_API}logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ export const useAuthService = () => {
         if (!authTokens) {
             return
         }
-        const response = await fetch(`${AUTH_API}grefresh`, {
+        const response = await fetch(`${AUTH_API}refresh`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -80,6 +81,33 @@ export const useAuthService = () => {
             console.error(e)
         }
     }, [authTokens, logoutUser, setAuthTokens])
+
+    const getUsername = useCallback(async () => {
+        if (!authTokens) {
+            return ''
+        }
+        try {
+            const response = await fetch(`${AUTH_API}get_user_profile`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + String(authTokens),
+                },
+            })
+            if (response.status === 200) {
+                const data = await response.json()
+                return returnGreeting(data.user)
+            } else if (response.statusText === 'Unauthorized') {
+                logoutUser()
+                return ''
+            } else {
+                throw new Error('Ответ сети был не ok.')
+            }
+        } catch (error) {
+            console.log('Возникла проблема с вашим fetch запросом: ', error instanceof Error ? error.message : error)
+            return ''
+        }
+    }, [authTokens, logoutUser])
 
     const init = useCallback(() => {
         const authTokens = localStorage.getItem('access')
@@ -103,5 +131,6 @@ export const useAuthService = () => {
     return {
         loginUser,
         logoutUser,
+        getUsername,
     }
 }

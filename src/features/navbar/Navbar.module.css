@@ -4,6 +4,16 @@
     padding: 0;
 }
 
+.wrapper {
+  display: block;
+}
+
+@media (min-width: 1000px) {
+  .wrapper {
+    display: none;
+  }
+}
+
 .navbar {
     /*background: #15171c;*/
     background: #212529;
