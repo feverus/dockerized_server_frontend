@@ -11,7 +11,7 @@ export const LoginForm = () => {
     const [remember, setRemember] = useState(false)
 
     return (
-        <Box component="form" noValidate sx={{ mt: 1 }}>
+        <Box sx={{ mt: 1 }}>
             <TextField
                 margin="normal"
                 required

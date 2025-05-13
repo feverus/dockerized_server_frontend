@@ -93,6 +93,7 @@ export const useAuthService = () => {
                     'Content-Type': 'application/json',
                     Authorization: 'Bearer ' + String(authTokens),
                 },
+                credentials: 'include',
             })
             if (response.status === 200) {
                 const data = await response.json()

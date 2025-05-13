@@ -349,7 +349,7 @@ export const ChatPage = () => {
                                                                         '&:hover': { cursor: 'pointer' },
                                                                     }}
                                                                 >
-                                                                    {suggestion}
+                                                                    <>{suggestion}</>
                                                                 </Typography>
                                                                 <IconButton
                                                                     size="small"
