@@ -1,6 +1,6 @@
 import useWebSocket from 'react-use-websocket'
 
-import { useChatStore } from '../../store'
+import { useChatStore, type Suggestion } from '../../store'
 import { CHAT_API } from '../../assets'
 
 export const useWebSocketService = () => {
@@ -31,7 +31,7 @@ export const useWebSocketService = () => {
         reconnectInterval: 3000,
     })
 
-    const sendMessageWithType = (message: string, type = 'question') => {
+    const sendMessageWithType = (message: string | Suggestion, type = 'question') => {
         sendJsonMessage({
             type: type,
             message: message,

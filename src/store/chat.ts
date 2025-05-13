@@ -3,6 +3,12 @@ import { immer } from 'zustand/middleware/immer'
 import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../assets'
 
 type SeverityLevels = 'error' | 'success' | 'warning'
+export type Suggestion = {
+    chunk_text: string
+    page: number
+    similarity_score: bigint
+    source: string
+}
 type Message = {
     type: string
     content: string
@@ -13,9 +19,9 @@ type State = {
     isLoading: boolean
     systemMessage: string
     inputMessage: string
-    suggestions: string[]
+    suggestions: Suggestion[]
     messages: Message[]
-    pinnedSuggestions: string[]
+    pinnedSuggestions: Suggestion[]
 }
 type Action = {
     setSeverityLevel: (severityLevel: SeverityLevels) => void
@@ -23,9 +29,9 @@ type Action = {
     setShowSystemMessage: (showSystemMessage: boolean, keep?: boolean) => void
     setInputMessage: (inputMessage: string) => void
     setIsLoading: (isLoading: boolean) => void
-    setSuggestions: (suggestions: string[]) => void
+    setSuggestions: (suggestions: Suggestion[]) => void
     setMessages: (messages: Message[]) => void
-    setPinnedSuggestions: (pinnedSuggestions: string[]) => void
+    setPinnedSuggestions: (pinnedSuggestions: Suggestion[]) => void
 }
 
 const loadSavedMessages = () => {
@@ -95,7 +101,9 @@ export const useChatStore = create(
         },
         setPinnedSuggestions: (pinnedSuggestions) => {
             localStorage.setItem(PINNED_SUGGESTIONS_KEY, JSON.stringify(pinnedSuggestions))
-            set((state) => {state.pinnedSuggestions = pinnedSuggestions})
+            set((state) => {
+                state.pinnedSuggestions = pinnedSuggestions
+            })
         },
         setInputMessage: (inputMessage) => {
             if (inputMessage === '') {

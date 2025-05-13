@@ -15,7 +15,7 @@ export default function App() {
     const { user } = useAuthStore()
     const { isMenuOpened } = useMenuStore()
     const theme = useTheme()
-    const light = false //const [light, setLight] = useState(false)
+    const light = true //const [light, setLight] = useState(false)
 
     const menuСonditionalOptions = isMenuOpened
         ? {
