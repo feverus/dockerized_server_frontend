@@ -6,125 +6,24 @@ import SendIcon from '@mui/icons-material/Send'
 import PersonIcon from '@mui/icons-material/Person'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 
-
 import { useWebSocketService } from '../services'
 import { useChatStore } from '../store'
 import { ChatHeader, Suggestions, SystemMessage } from '../components'
 
 export const ChatPage = () => {
-    const {
-        setSeverityLevel,
-        severityLevel,
-        setSystemMessage,
-        setShowSystemMessage,
-        setSuggestions,
-        messages,
-        setMessages,
-        isLoading,
-        setIsLoading,
-        pinnedSuggestions,
-        setPinnedSuggestions,
-        inputMessage,
-        setInputMessage,
-    } = useChatStore()
-    const { sendMessageWithType, registerMessageHandler } = useWebSocketService()
+    const { setSuggestions, messages, setMessages, isLoading, setIsLoading, setPinnedSuggestions, inputMessage, setInputMessage } =
+        useChatStore()
+    const { sendMessageWithType } = useWebSocketService()
     const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
     // requestPinnedContext
-    useEffect(() => {
+/*     useEffect(() => {
         sendMessageWithType('get_all_context', 'get_all_context')
-    }, [sendMessageWithType])
+    }, [sendMessageWithType]) */
 
     useEffect(() => {
         scrollToBottom()
     }, [messages])
-
-    // Регистрация обработчика сообщений
-    useEffect(() => {
-        registerMessageHandler((event) => {
-            try {
-                const response = JSON.parse(event.data)
-                switch (response.type) {
-                    case 'get_all_context': {
-                        setIsLoading(false)
-                        break
-                    }
-                    case 'index': {
-                        const extractedSuggestions = []
-                        console.log('🚀 ~ registerMessageHandler ~ response.text:', response.text)
-                        const a_text = response.text
-                        for (const name in a_text) {
-                            extractedSuggestions.push(a_text[name])
-                        }
-                        if (extractedSuggestions.length > 0) {
-                            setSuggestions(extractedSuggestions)
-                        }
-                        break
-                    }
-                    case 'chunk': {
-                        setIsLoading(false)
-                        const newMessages = [...messages]
-                        const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
-                        if (lastMessage?.type === 'bot') {
-                            newMessages[newMessages.length - 1] = {
-                                ...lastMessage,
-                                content: lastMessage.content + response.text,
-                            }
-                        } else {
-                            newMessages.push({
-                                type: 'bot',
-                                content: response.text,
-                            })
-                        }
-                        setMessages(newMessages)
-                        break
-                    }
-                    case 'complete':
-                        setIsLoading(false)
-                        break
-                    case 'error':
-                        setIsLoading(false)
-                        setSeverityLevel('warning')
-                        setSystemMessage('Ошибка: ' + response.text)
-                        setShowSystemMessage(true, true)
-                        break
-                    case 'pin_context':
-                        if (!pinnedSuggestions.includes(response.text)) {
-                            setPinnedSuggestions([...pinnedSuggestions, response.text])
-                        }
-                        setPinnedSuggestions(pinnedSuggestions)
-                        break
-                    case 'unpin_context':
-                        setPinnedSuggestions(pinnedSuggestions.filter((s) => s !== response.text))
-                        break
-                    // fixme Только для разработки, удалить на проде
-                    case 'console':
-                        console.log(response.text)
-                        break
-                    default:
-                        break
-                }
-            } catch (error) {
-                console.error('Ошибка обработки сообщения с сервером по каналу WebSocket:', error)
-                setIsLoading(false)
-                setSeverityLevel('error')
-                setSystemMessage('Ошибка:' + error?.toString())
-                setShowSystemMessage(true, true)
-            }
-        })
-    }, [
-        messages,
-        pinnedSuggestions,
-        registerMessageHandler,
-        setIsLoading,
-        setMessages,
-        setPinnedSuggestions,
-        setSeverityLevel,
-        setShowSystemMessage,
-        setSuggestions,
-        setSystemMessage,
-        severityLevel,
-    ])
 
     // Отправка сообщения
     const handleSendMessage = (e: { preventDefault: () => void }) => {

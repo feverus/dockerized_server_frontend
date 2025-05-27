@@ -1,52 +1,134 @@
-import useWebSocket from 'react-use-websocket'
+import { useCallback } from 'react'
+import _ from 'lodash'
 
-import { useChatStore, type Suggestion } from '../../store'
+import { useChatStore, useWsStore, type Suggestion } from '../../store'
 import { CHAT_API } from '../../assets'
 
 export const useWebSocketService = () => {
-    const { setSystemMessage, setShowSystemMessage, setSeverityLevel } = useChatStore()
+    const { setSystemMessage, setShowSystemMessage, setSeverityLevel, setIsLoading, setSuggestions, setMessages, setPinnedSuggestions } =
+        useChatStore()
+    const { setWs } = useWsStore()
 
-    const { sendJsonMessage, getWebSocket } = useWebSocket(CHAT_API, {
-        onOpen: () => {
+    const connect = () => {
+        // Если соединение уже запущено, то ничего не делаем.
+        if (useWsStore.getState().ws !== null) {
+            return
+        }
+        const newWs = new WebSocket(CHAT_API)
+        setWs(newWs)
+
+        newWs.onopen = () => {
             console.log('WebSocket соединение установлено.')
             setSeverityLevel('success')
             setSystemMessage('Установлено соединение с сервером')
             setShowSystemMessage(true)
-        },
-        onClose: () => {
+        }
+
+        newWs.onclose = () => {
             console.log('WebSocket соединение разорвано')
             setSeverityLevel('error')
             setSystemMessage('Соединение с сервером разорвано. Попытка установки соединения...')
             setShowSystemMessage(true, true)
-        },
-        shouldReconnect: (closeEvent) => {
-            console.log('💨closeEvent', closeEvent)
-            return true
-        },
-        onError: (error: unknown) => {
+            setWs(null)
+            setTimeout(() => connect(), 1000)
+        }
+
+        newWs.onerror = (error: unknown) => {
             console.error('WebSocket ошибка:', error)
             setSystemMessage('Ошибка соединения с сервером.')
             setShowSystemMessage(true, true)
-        },
-        reconnectInterval: 3000,
-    })
+            newWs.close()
+        }
 
-    const sendMessageWithType = (message: string | Suggestion, type = 'question') => {
-        sendJsonMessage({
-            type: type,
-            message: message,
-        })
-    }
-
-    const registerMessageHandler = (callback: ((this: WebSocket, ev: MessageEvent) => void) | null) => {
-        const ws = getWebSocket()
-        if (ws) {
-            ws.onmessage = callback
+        newWs.onmessage = (event) => {
+            try {
+                const response = JSON.parse(event.data)
+                console.log('🚀 onMessage:', response)
+                switch (response.type) {
+                    case 'get_all_context': {
+                        setIsLoading(false)
+                        break
+                    }
+                    case 'index': {
+                        const extractedSuggestions = []
+                        const a_text = response.text
+                        for (const name in a_text) {
+                            extractedSuggestions.push(a_text[name])
+                        }
+                        if (extractedSuggestions.length > 0) {
+                            setSuggestions(extractedSuggestions)
+                        }
+                        break
+                    }
+                    case 'chunk': {
+                        setIsLoading(false)
+                        const newMessages = [...useChatStore.getState().messages]
+                        const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
+                        if (lastMessage?.type === 'bot') {
+                            newMessages[newMessages.length - 1] = {
+                                ...lastMessage,
+                                content: lastMessage.content + response.text,
+                            }
+                        } else {
+                            newMessages.push({
+                                type: 'bot',
+                                content: response.text,
+                            })
+                        }
+                        setMessages(newMessages)
+                        break
+                    }
+                    case 'complete':
+                        setIsLoading(false)
+                        break
+                    case 'error':
+                        setIsLoading(false)
+                        setSeverityLevel('warning')
+                        setSystemMessage('Ошибка: ' + response.text)
+                        setShowSystemMessage(true, true)
+                        break
+                    case 'pin_context': {
+                        const pinnedSuggestions = useChatStore.getState().pinnedSuggestions
+                        if (pinnedSuggestions.every((item) => !_.isEqual(item, response.text))) {
+                            setPinnedSuggestions([...pinnedSuggestions, response.text])
+                        }
+                        break
+                    }
+                    case 'unpin_context': {
+                        const pinnedSuggestions = useChatStore.getState().pinnedSuggestions
+                        setPinnedSuggestions(pinnedSuggestions.filter((item) => !_.isEqual(item, response.text)))
+                        break
+                    }
+                    // fixme Только для разработки, удалить на проде
+                    case 'console':
+                        console.log(response.text)
+                        break
+                    default:
+                        break
+                }
+            } catch (error) {
+                console.error('Ошибка обработки сообщения с сервером по каналу WebSocket:', error)
+                setIsLoading(false)
+                setSeverityLevel('error')
+                setSystemMessage('Ошибка:' + error?.toString())
+                setShowSystemMessage(true, true)
+            }
         }
     }
 
-    return {
-        registerMessageHandler,
-        sendMessageWithType,
-    }
+    const sendJsonMessage = useCallback((message: unknown) => useWsStore.getState().ws?.send(JSON.stringify(message)), [])
+
+    const sendMessageWithType = useCallback(
+        (message: string | Suggestion, type = 'question') => {
+            sendJsonMessage({
+                type: type,
+                message: message,
+            })
+        },
+        [sendJsonMessage],
+    )
+
+    connect()
+
+    return { sendMessageWithType }
 }
