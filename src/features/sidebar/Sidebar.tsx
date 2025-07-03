@@ -39,6 +39,7 @@ export const Sidebar = () => {
     return (
         <Drawer
             sx={{
+                position: 'absolute',
                 width: DRAWER_WIDTH,
                 flexShrink: 0,
                 '& .MuiDrawer-paper': { width: DRAWER_WIDTH, boxSizing: 'border-box', backgroundColor: '#212529', color: 'white' },

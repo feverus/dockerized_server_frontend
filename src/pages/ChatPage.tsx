@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react'
-
+import ReactMarkdown from 'react-markdown'
 import { Box, TextField, Container, Paper, Typography, Avatar, IconButton, CircularProgress } from '@mui/material'
-
 import SendIcon from '@mui/icons-material/Send'
 import PersonIcon from '@mui/icons-material/Person'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
@@ -9,6 +8,7 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import { useWebSocketService } from '../services'
 import { useChatStore } from '../store'
 import { ChatHeader, Suggestions, SystemMessage } from '../components'
+import styles from './ChatPage.module.css'
 
 export const ChatPage = () => {
     const { setSuggestions, messages, setMessages, isLoading, setIsLoading, setPinnedSuggestions, inputMessage, setInputMessage } =
@@ -17,7 +17,7 @@ export const ChatPage = () => {
     const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
     // requestPinnedContext
-/*     useEffect(() => {
+    /*     useEffect(() => {
         sendMessageWithType('get_all_context', 'get_all_context')
     }, [sendMessageWithType]) */
 
@@ -46,12 +46,8 @@ export const ChatPage = () => {
     return (
         <Box display="flex" flexDirection="column" className="content" sx={{ height: '90vh' }}>
             <Box flex={1} overflow="auto">
-                <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-                    <Paper
-                        className="suggestions-container"
-                        elevation={3}
-                        sx={{ p: 2, height: '60vh', display: 'flex', flexDirection: 'column' }}
-                    >
+                <Container sx={{ mt: 4, mb: 4, height: '85vh' }}>
+                    <Paper className={styles.suggestionsContainer} elevation={3} sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                         <ChatHeader />
 
                         <SystemMessage />
@@ -96,7 +92,11 @@ export const ChatPage = () => {
                                                 whiteSpace: 'pre-wrap',
                                             }}
                                         >
-                                            <Typography variant="body1">{message.content}</Typography>
+                                            {message.isMarkdown ? (
+                                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                                            ) : (
+                                                <Typography>{message.content}</Typography>
+                                            )}
                                         </Paper>
 
                                         {message.type === 'user' && (

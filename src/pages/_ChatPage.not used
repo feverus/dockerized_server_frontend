@@ -6,7 +6,7 @@
         // URL API for data
     const params = new Proxy(new URLSearchParams(window.location.search), {
         get: (searchParams, prop) => searchParams.get(prop.toString()),
-    })
+    })-
 
     const url = params.has('profile')
         ? `http://localhost:80/api/profile/get_profile/?profile=${params.get('profile')}`
@@ -47,7 +47,7 @@
     
     useEffect(() => {
         const handleSuggestionsOutside = (event) => {
-            const suggestionsContainer = document.querySelector('.suggestions-container')
+            const suggestionsContainer = document.querySelector('.suggestionsContainer')
             if (suggestionsContainer && !suggestionsContainer.contains(event.target)) {
                 setSuggestions([])
             }

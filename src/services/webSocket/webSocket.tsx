@@ -45,6 +45,27 @@ export const useWebSocketService = () => {
                 const response = JSON.parse(event.data)
                 console.log('🚀 onMessage:', response)
                 switch (response.type) {
+                    case 'global_search': {
+                        setIsLoading(false)
+                        const newMessages = [...useChatStore.getState().messages]
+                        newMessages.push({
+                            type: 'bot',
+                            content: response.text,
+                            isMarkdown: true,
+                        })
+                        setMessages(newMessages)
+                        break
+                    }
+                    case 'info': {
+                        setSeverityLevel('info')
+                        setSystemMessage(response.text)
+                        if (response.text.includes('Начата генерация ответа при помощи графа знаний')) {
+                            setIsLoading(true)
+                        }
+                        setShowSystemMessage(true)
+                        setTimeout(() => setShowSystemMessage(false), 5000)
+                        break
+                    }
                     case 'get_all_context': {
                         setIsLoading(false)
                         break

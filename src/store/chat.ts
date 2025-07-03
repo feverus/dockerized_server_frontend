@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../assets'
 
-type SeverityLevels = 'error' | 'success' | 'warning'
+type SeverityLevels = 'error' | 'success' | 'warning' | 'info'
 export type Suggestion = {
     chunk_text: string
     page: number
@@ -12,6 +12,7 @@ export type Suggestion = {
 type Message = {
     type: string
     content: string
+    isMarkdown?: boolean
 }
 type State = {
     severityLevel: SeverityLevels
