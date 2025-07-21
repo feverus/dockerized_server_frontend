@@ -45,14 +45,32 @@ export const useWebSocketService = () => {
                 const response = JSON.parse(event.data)
                 console.log('🚀 onMessage:', response)
                 switch (response.type) {
-                    case 'global_search': {
+                    case 'local_search_chunk': {
                         setIsLoading(false)
                         const newMessages = [...useChatStore.getState().messages]
                         newMessages.push({
                             type: 'bot',
-                            content: response.text,
+                            content: response.text+"\n",
                             isMarkdown: true,
                         })
+                        setMessages(newMessages)
+                        break
+                    }
+                    case 'global_search_chunk': {
+                        setIsLoading(false)
+                        const newMessages = [...useChatStore.getState().messages]
+                        const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
+                        if (lastMessage?.type === 'bot') {
+                            newMessages[newMessages.length - 1] = {
+                                ...lastMessage,
+                                content: lastMessage.content + response.text,
+                            }
+                        } else {
+                            newMessages.push({
+                                type: 'bot',
+                                content: response.text,
+                            })
+                        }
                         setMessages(newMessages)
                         break
                     }
