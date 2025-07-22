@@ -29,8 +29,11 @@ export const SuggestionsItem = ({ needBorderBottom, suggestion }: SuggestionsIte
             <Typography
                 variant="body2"
                 sx={{
-                    flexGrow: 1,
+                    flexGrow: 0,
                     '&:hover': { cursor: 'pointer' },
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '40vw',
                 }}
             >
                 {suggestion.chunk_text}

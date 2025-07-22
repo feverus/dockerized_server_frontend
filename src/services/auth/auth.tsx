@@ -2,9 +2,11 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuthStore } from '../../store'
-import { AUTH_API, REFRESH_INTERVAL } from '../../assets'
+import { REFRESH_INTERVAL } from '../../assets'
 import type { LoginUserProps } from './auth.types'
 import { returnGreeting } from '../../utils'
+
+const AUTH_API = import.meta.env.VITE_AUTH_API
 
 export const useAuthService = () => {
     const navigate = useNavigate()
@@ -18,7 +20,7 @@ export const useAuthService = () => {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),
+            body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),            
         })
         try {
             const data = await response.json()

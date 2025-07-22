@@ -11,7 +11,7 @@ export const ChatHeader = () => {
 
     return (
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-            <Typography variant="h4" component="h1">
+            <Typography variant="h5" component="h1">
                 {`СПЖЦ "Персонал". СИИП "Помощник".`}
             </Typography>
             <IconButton color="error" onClick={clearChatHistory} title="Очистить историю чата" size="small">

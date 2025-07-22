@@ -2,7 +2,8 @@ import { useCallback } from 'react'
 import _ from 'lodash'
 
 import { useChatStore, useWsStore, type Suggestion } from '../../store'
-import { CHAT_API } from '../../assets'
+
+const CHAT_API = import.meta.env.VITE_CHAT_API
 
 export const useWebSocketService = () => {
     const { setSystemMessage, setShowSystemMessage, setSeverityLevel, setIsLoading, setSuggestions, setMessages, setPinnedSuggestions } =
@@ -50,13 +51,14 @@ export const useWebSocketService = () => {
                         const newMessages = [...useChatStore.getState().messages]
                         newMessages.push({
                             type: 'bot',
-                            content: response.text+"\n",
+                            content: response.text + '\n',
                             isMarkdown: true,
                         })
                         setMessages(newMessages)
                         break
                     }
-                    case 'global_search_chunk': {
+                    case 'global_search_chunk':
+                    case 'chunk': {
                         setIsLoading(false)
                         const newMessages = [...useChatStore.getState().messages]
                         const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
@@ -97,24 +99,6 @@ export const useWebSocketService = () => {
                         if (extractedSuggestions.length > 0) {
                             setSuggestions(extractedSuggestions)
                         }
-                        break
-                    }
-                    case 'chunk': {
-                        setIsLoading(false)
-                        const newMessages = [...useChatStore.getState().messages]
-                        const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
-                        if (lastMessage?.type === 'bot') {
-                            newMessages[newMessages.length - 1] = {
-                                ...lastMessage,
-                                content: lastMessage.content + response.text,
-                            }
-                        } else {
-                            newMessages.push({
-                                type: 'bot',
-                                content: response.text,
-                            })
-                        }
-                        setMessages(newMessages)
                         break
                     }
                     case 'complete':

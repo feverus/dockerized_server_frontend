@@ -12,12 +12,12 @@ export const Suggestions = () => {
         (suggestions.length > 0 || pinnedSuggestions.length > 0) && (
             <Paper
                 sx={{
-                    position: 'absolute',
-                    width: '100%',
-                    zIndex: 1500,
                     mt: 0.5,
                     maxHeight: '200px',
                     overflow: 'auto',
+                    position: 'absolute',
+                    zIndex: '1000',
+                    width: 'calc(50vw - 35px)',
                 }}
                 elevation={3}
             >

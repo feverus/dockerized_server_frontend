@@ -1,4 +1,2 @@
-export * from './chatheader';
-export * from './drawerheader';
-export * from './suggestions';
-export * from './systemmessage';
+export * from './drawerheader'
+export * from './systemmessage'
