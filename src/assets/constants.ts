@@ -1,4 +1,4 @@
-export const REFRESH_INTERVAL = 3000 * 60 * 1 // 3 минуты
+export const REFRESH_INTERVAL = 2000 * 60 * 1 // 2 минуты
 export const DRAWER_WIDTH = 240
 export const BREAKPOINT = 1000
 

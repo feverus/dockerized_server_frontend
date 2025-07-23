@@ -11,6 +11,7 @@ import { DRAWER_WIDTH } from '../../assets'
 import { useMenuStore, useAuthStore } from '../../store'
 import { useAuthService } from '../../services'
 import { SidebarData } from '../../assets/SidebarData'
+import { SystemMessage } from '../systemmessage'
 import styles from './Navbar.module.css'
 
 // Black theme
@@ -34,7 +35,7 @@ const List = styled(MuiList)({
 export const Navbar = () => {
     const theme = useTheme()
     const { isMenuOpened, setIsMenuOpened } = useMenuStore()
-    const { user } = useAuthStore()
+    const { user, authTokens } = useAuthStore()
     const { logoutUser, getUsername } = useAuthService()
     const [greeting, setGreeting] = React.useState('')
 
@@ -68,8 +69,8 @@ export const Navbar = () => {
     }))
 
     useEffect(() => {
-        getUsername().then((name) => setGreeting(name))
-    }, [getUsername, user])
+        getUsername(authTokens).then((name) => setGreeting(name))
+    }, [authTokens, getUsername, user])
 
     if (!user) {
         return null
@@ -87,6 +88,7 @@ export const Navbar = () => {
                 >
                     <MenuIcon />
                 </IconButton>
+                <SystemMessage />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {greeting}
                 </Typography>

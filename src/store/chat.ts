@@ -16,9 +16,7 @@ type Message = {
 }
 type State = {
     severityLevel: SeverityLevels
-    showSystemMessage: boolean
     isLoading: boolean
-    systemMessage: string
     inputMessage: string
     suggestions: Suggestion[]
     messages: Message[]
@@ -26,8 +24,6 @@ type State = {
 }
 type Action = {
     setSeverityLevel: (severityLevel: SeverityLevels) => void
-    setSystemMessage: (systemMessage: string) => void
-    setShowSystemMessage: (showSystemMessage: boolean, keep?: boolean) => void
     setInputMessage: (inputMessage: string) => void
     setIsLoading: (isLoading: boolean) => void
     setSuggestions: (suggestions: Suggestion[]) => void
@@ -50,35 +46,21 @@ const loadSavedMessages = () => {
 
 const initialState: State = {
     severityLevel: 'error',
-    showSystemMessage: false,
     isLoading: false,
-    systemMessage: '',
-    inputMessage: localStorage.getItem(CHAT_INPUT_STORAGE_KEY) || '',
+    inputMessage: JSON.parse(localStorage.getItem(CHAT_INPUT_STORAGE_KEY) ?? '""'),
     suggestions: [],
     messages: loadSavedMessages(),
     pinnedSuggestions: [],
 }
 
 export const useChatStore = create(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     immer<State & Action>((set, get) => ({
         ...initialState,
         setSeverityLevel: (severityLevel) => {
             set((state) => {
                 state.severityLevel = severityLevel
             })
-        },
-        setSystemMessage: (systemMessage) => {
-            set((state) => {
-                state.systemMessage = systemMessage
-            })
-        },
-        setShowSystemMessage: (showSystemMessage, keep = false) => {
-            set((state) => {
-                state.showSystemMessage = showSystemMessage
-            })
-            if (showSystemMessage && !keep) {
-                setTimeout(() => get().setShowSystemMessage(false), 5000)
-            }
         },
         setSuggestions: (suggestions) => {
             set((state) => {

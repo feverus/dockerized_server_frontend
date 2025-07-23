@@ -5,11 +5,12 @@
   flex-wrap: nowrap;
   gap: 10px;
   padding: 10px;
-  .half {
-    flex: 1;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
+}
+.half {
+  flex: 1;
+  padding: 10px;
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }

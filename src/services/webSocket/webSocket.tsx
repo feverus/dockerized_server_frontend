@@ -2,13 +2,14 @@ import { useCallback } from 'react'
 import _ from 'lodash'
 
 import { useChatStore, useWsStore, type Suggestion } from '../../store'
+import { useNotificationsService } from '../'
 
 const CHAT_API = import.meta.env.VITE_CHAT_API
 
 export const useWebSocketService = () => {
-    const { setSystemMessage, setShowSystemMessage, setSeverityLevel, setIsLoading, setSuggestions, setMessages, setPinnedSuggestions } =
-        useChatStore()
+    const { setIsLoading, setSuggestions, setMessages, setPinnedSuggestions } = useChatStore()
     const { setWs } = useWsStore()
+    const { addNotification } = useNotificationsService()
 
     const connect = () => {
         // Если соединение уже запущено, то ничего не делаем.
@@ -19,25 +20,26 @@ export const useWebSocketService = () => {
         setWs(newWs)
 
         newWs.onopen = () => {
+            addNotification({ type: 'success', message: 'Установлено соединение с сервером' })
             console.log('WebSocket соединение установлено.')
-            setSeverityLevel('success')
-            setSystemMessage('Установлено соединение с сервером')
-            setShowSystemMessage(true)
         }
 
         newWs.onclose = () => {
+            addNotification({
+                type: 'error',
+                message: 'Соединение с сервером разорвано. Попытка установки соединения...',
+            })
             console.log('WebSocket соединение разорвано')
-            setSeverityLevel('error')
-            setSystemMessage('Соединение с сервером разорвано. Попытка установки соединения...')
-            setShowSystemMessage(true, true)
             setWs(null)
             setTimeout(() => connect(), 1000)
         }
 
         newWs.onerror = (error: unknown) => {
+            addNotification({
+                type: 'error',
+                message: 'Ошибка соединения с сервером' + error,
+            })
             console.error('WebSocket ошибка:', error)
-            setSystemMessage('Ошибка соединения с сервером.')
-            setShowSystemMessage(true, true)
             newWs.close()
         }
 
@@ -77,13 +79,10 @@ export const useWebSocketService = () => {
                         break
                     }
                     case 'info': {
-                        setSeverityLevel('info')
-                        setSystemMessage(response.text)
-                        if (response.text.includes('Начата генерация ответа при помощи графа знаний')) {
-                            setIsLoading(true)
-                        }
-                        setShowSystemMessage(true)
-                        setTimeout(() => setShowSystemMessage(false), 5000)
+                        addNotification({
+                            type: 'info',
+                            message: response.text,
+                        })
                         break
                     }
                     case 'get_all_context': {
@@ -105,10 +104,10 @@ export const useWebSocketService = () => {
                         setIsLoading(false)
                         break
                     case 'error':
-                        setIsLoading(false)
-                        setSeverityLevel('warning')
-                        setSystemMessage('Ошибка: ' + response.text)
-                        setShowSystemMessage(true, true)
+                        addNotification({
+                            type: 'warning',
+                            message: 'Ошибка: ' + response.text,
+                        })
                         break
                     case 'pin_context': {
                         const pinnedSuggestions = useChatStore.getState().pinnedSuggestions
@@ -130,11 +129,12 @@ export const useWebSocketService = () => {
                         break
                 }
             } catch (error) {
+                addNotification({
+                    type: 'error',
+                    message: 'Ошибка:' + error?.toString(),
+                })
                 console.error('Ошибка обработки сообщения с сервером по каналу WebSocket:', error)
                 setIsLoading(false)
-                setSeverityLevel('error')
-                setSystemMessage('Ошибка:' + error?.toString())
-                setShowSystemMessage(true, true)
             }
         }
     }

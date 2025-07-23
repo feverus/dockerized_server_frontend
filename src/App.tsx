@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { styled, useTheme, Box, CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
+import { ReactNotifications } from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 
 import { DrawerHeader } from './components'
 import { Navbar, Sidebar } from './features'
@@ -12,7 +14,7 @@ import { DRAWER_WIDTH } from './assets'
 import './App.css'
 
 export default function App() {
-    const { user } = useAuthStore()
+    const user = useAuthStore((state) => state.user)
     const { isMenuOpened } = useMenuStore()
     const theme = useTheme()
     const light = true //const [light, setLight] = useState(false)
@@ -47,6 +49,7 @@ export default function App() {
 
     return (
         <ThemeProvider theme={light ? themeLight : themeDark}>
+            <ReactNotifications className={'notificationContainer'} />
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Navbar />

@@ -5,15 +5,11 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
 
 import { useChatStore } from '../../store'
+import styles from './Terminal.module.css'
 
 export const Terminal = () => {
     const { messages, isLoading } = useChatStore()
     const messagesEndRef = useRef<HTMLDivElement | null>(null)
-
-    // requestPinnedContext
-    /*     useEffect(() => {
-            sendMessageWithType('get_all_context', 'get_all_context')
-        }, [sendMessageWithType]) */
 
     useEffect(() => {
         scrollToBottom()
@@ -58,10 +54,10 @@ export const Terminal = () => {
                             sx={{
                                 p: 2,
                                 borderRadius: 2,
-                                maxWidth: '70%',
+                                maxWidth: '80%',
                                 bgcolor: message.type === 'user' ? 'primary.light' : 'background.paper',
                                 color: message.type === 'user' ? 'white' : 'text.primary',
-                                whiteSpace: 'pre-wrap',
+                                //whiteSpace: 'pre-wrap',
                             }}
                         >
                             {message.isMarkdown ? (

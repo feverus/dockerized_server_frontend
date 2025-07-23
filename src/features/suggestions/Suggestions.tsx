@@ -3,53 +3,46 @@ import { Paper, Box, Typography } from '@mui/material'
 import { useChatStore } from '../../store'
 import { Pin } from './Pin'
 import { SuggestionsItem } from './SuggestionsItem'
+import styles from './Suggestions.module.css'
 
 export const Suggestions = () => {
     const { suggestions, pinnedSuggestions } = useChatStore()
     const pinnedSuggestionsChunks = pinnedSuggestions.map(({ chunk_text }) => chunk_text)
 
-    return (
-        (suggestions.length > 0 || pinnedSuggestions.length > 0) && (
-            <Paper
-                sx={{
-                    mt: 0.5,
-                    maxHeight: '200px',
-                    overflow: 'auto',
-                    position: 'absolute',
-                    zIndex: '1000',
-                    width: 'calc(50vw - 35px)',
-                }}
-                elevation={3}
-            >
-                {pinnedSuggestions.length > 0 && (
-                    <Box
-                        sx={{
-                            p: 1,
-                            borderBottom: '1px solid #e0e0e0',
-                            bgcolor: 'rgba(66, 165, 245, 0.1)',
-                        }}
-                    >
-                        <Typography variant="caption" sx={{ display: 'block', mb: 1, color: 'text.secondary' }}>
-                            Закрепленный контекст
-                        </Typography>
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-                            {pinnedSuggestions.map((pinned, idx) => (
-                                <Pin pinned={pinned} key={`pinned-${idx}`} />
-                            ))}
-                        </Box>
-                    </Box>
-                )}
+    if (suggestions.length === 0 && pinnedSuggestions.length === 0) {
+        return
+    }
 
-                {suggestions.length > 0 && (
-                    <Box>
-                        {suggestions
-                            .filter(({ chunk_text }) => !pinnedSuggestionsChunks.includes(chunk_text))
-                            .map((suggestion, index) => (
-                                <SuggestionsItem key={index} needBorderBottom={index < suggestions.length - 1} suggestion={suggestion} />
-                            ))}
+    return (
+        <Paper className={styles.wrapper} elevation={3}>
+            {pinnedSuggestions.length > 0 && (
+                <Box
+                    sx={{
+                        p: 1,
+                        borderBottom: '1px solid #e0e0e0',
+                        bgcolor: 'rgba(66, 165, 245, 0.1)',
+                    }}
+                >
+                    <Typography variant="caption" sx={{ display: 'block', mb: 1, color: 'text.secondary' }}>
+                        Закрепленный контекст
+                    </Typography>
+                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                        {pinnedSuggestions.map((pinned, idx) => (
+                            <Pin pinned={pinned} key={`pinned-${idx}`} />
+                        ))}
                     </Box>
-                )}
-            </Paper>
-        )
+                </Box>
+            )}
+
+            {suggestions.length > 0 && (
+                <Box>
+                    {suggestions
+                        .filter(({ chunk_text }) => !pinnedSuggestionsChunks.includes(chunk_text))
+                        .map((suggestion, index) => (
+                            <SuggestionsItem key={index} needBorderBottom={index < suggestions.length - 1} suggestion={suggestion} />
+                        ))}
+                </Box>
+            )}
+        </Paper>
     )
 }

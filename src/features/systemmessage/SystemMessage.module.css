@@ -1,0 +1,21 @@
+.base {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin: 0 10px 0 0;
+}
+
+.error {
+  background-color: #dc3545;
+  cursor: not-allowed;
+}
+.success {
+  background-color: #28a745;
+}
+.info {
+  background-color: #17a2b8;
+  cursor: wait;
+}
+.warning {
+  background-color: #eab000;
+}

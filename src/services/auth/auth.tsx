@@ -20,7 +20,7 @@ export const useAuthService = () => {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),            
+            body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),
         })
         try {
             const data = await response.json()
@@ -84,33 +84,36 @@ export const useAuthService = () => {
         }
     }, [authTokens, logoutUser, setAuthTokens])
 
-    const getUsername = useCallback(async () => {
-        if (!authTokens) {
-            return ''
-        }
-        try {
-            const response = await fetch(`${AUTH_API}get_user_profile`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Bearer ' + String(authTokens),
-                },
-                credentials: 'include',
-            })
-            if (response.status === 200) {
-                const data = await response.json()
-                return returnGreeting(data.user)
-            } else if (response.statusText === 'Unauthorized') {
-                logoutUser()
+    const getUsername = useCallback(
+        async (authTokens: string | null) => {
+            if (!authTokens) {
                 return ''
-            } else {
-                throw new Error('Ответ сети был не ok.')
             }
-        } catch (error) {
-            console.log('Возникла проблема с вашим fetch запросом: ', error instanceof Error ? error.message : error)
-            return ''
-        }
-    }, [authTokens, logoutUser])
+            try {
+                const response = await fetch(`${AUTH_API}get_user_profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: 'Bearer ' + String(authTokens),
+                    },
+                    credentials: 'include',
+                })
+                if (response.status === 200) {
+                    const data = await response.json()
+                    return returnGreeting(data.user)
+                } else if (response.statusText === 'Unauthorized') {
+                    logoutUser()
+                    return ''
+                } else {
+                    throw new Error('Ответ сети был не ok.')
+                }
+            } catch (error) {
+                console.log('Возникла проблема с вашим fetch запросом: ', error instanceof Error ? error.message : error)
+                return ''
+            }
+        },
+        [logoutUser],
+    )
 
     const init = useCallback(() => {
         const authTokens = localStorage.getItem('access')
@@ -129,7 +132,7 @@ export const useAuthService = () => {
         return () => {
             interval.current && clearInterval(interval.current)
         }
-    }, [authTokens, init, initialized, updateToken])
+    }, [init, initialized, updateToken])
 
     return {
         loginUser,

@@ -1,33 +1,30 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/*.profile,*/
-/*.reports,*/
-/*.products,*/
-/*.team,*/
-/*.reports {*/
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-/*    font-size: 3rem;*/
-/*}*/
-
 .flex-container {
-    display: flex;
-    min-height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
 .item1 {
-    flex: 0 1 auto;
+  flex: 0 1 auto;
 }
 
 .item2 {
-    flex: 1 1 auto;
+  flex: 1 1 auto;
 }
 
 #root {
   height: 100vh;
+}
+
+/* Переопределдение стандартного стиля уведомления для смещения ниже навбара*/
+.notificationContainer {
+  top: 64px;
+}
+.notificationContainer .rnc__notification {
+  width: calc(50vw - 35px)!important
 }
