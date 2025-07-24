@@ -3,6 +3,7 @@ import SendIcon from '@mui/icons-material/Send'
 
 import { useWebSocketService } from '../../services'
 import { useChatStore } from '../../store'
+import styles from './ChatInput.module.css'
 
 export const ChatInput = () => {
     const { setSuggestions, messages, setMessages, isLoading, setIsLoading, setPinnedSuggestions, inputMessage, setInputMessage } =
@@ -43,6 +44,7 @@ export const ChatInput = () => {
                         onKeyDown={handleInputKeyDown}
                         variant="outlined"
                         disabled={isLoading}
+                        className={styles.inputWrapper}
                     />
                 </Box>
 

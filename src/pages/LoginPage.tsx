@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import Avatar from '@mui/material/Avatar'
 import CssBaseline from '@mui/material/CssBaseline'
 import Paper from '@mui/material/Paper'
@@ -8,10 +9,19 @@ import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 import { Copyright, LoginForm } from '../features'
+import { useWsStore } from '../store'
 
 const defaultTheme = createTheme()
 
 export const LoginPage = () => {
+    const { setReconnectTimeout, reconnectTimeout, setWs } = useWsStore()
+
+    useEffect(() => {
+        reconnectTimeout && window.clearTimeout(reconnectTimeout)
+        setReconnectTimeout(null)
+        setWs(null)
+    }, [reconnectTimeout, setReconnectTimeout, setWs])
+
     return (
         <ThemeProvider theme={defaultTheme}>
             <Grid container component="main" sx={{ height: '100vh' }}>

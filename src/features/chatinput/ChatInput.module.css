@@ -1,0 +1,3 @@
+.inputWrapper input:disabled {
+    background-color: #cccccc;
+}

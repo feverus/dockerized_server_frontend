@@ -35,7 +35,7 @@
   overflow: hidden;
   font-size: small;
 }
-.danger {
+.error {
   background-color: #dc3545;
   border-left: 8px solid #bd1120;
   cursor: pointer;

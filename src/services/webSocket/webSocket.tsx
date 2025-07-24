@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import _ from 'lodash'
 
 import { useChatStore, useWsStore, type Suggestion } from '../../store'
@@ -7,15 +7,17 @@ import { useNotificationsService } from '../'
 const CHAT_API = import.meta.env.VITE_CHAT_API
 
 export const useWebSocketService = () => {
-    const { setIsLoading, setSuggestions, setMessages, setPinnedSuggestions } = useChatStore()
-    const { setWs } = useWsStore()
-    const { addNotification } = useNotificationsService()
+    const { setIsLoading, setSuggestions, setMessages, setPinnedSuggestions, setSeverityLevel } = useChatStore()
+    const { setWs, setReconnectTimeout, reconnectTimeout } = useWsStore()
+    const { addNotification, removeNotification } = useNotificationsService()
+    const idRetry = useRef<null | string>(null)
 
-    const connect = () => {
+    const connect = useCallback(() => {
         // Если соединение уже запущено, то ничего не делаем.
         if (useWsStore.getState().ws !== null) {
             return
         }
+
         const newWs = new WebSocket(CHAT_API)
         setWs(newWs)
 
@@ -25,46 +27,53 @@ export const useWebSocketService = () => {
         }
 
         newWs.onclose = () => {
-            addNotification({
-                type: 'error',
-                message: 'Соединение с сервером разорвано. Попытка установки соединения...',
-            })
+            if (!idRetry.current) {
+                idRetry.current = addNotification({
+                    type: 'error',
+                    message: 'Соединение с сервером разорвано. Попытка установки соединения...',
+                    autoHideDuration: 0,
+                })
+            }
             console.log('WebSocket соединение разорвано')
             setWs(null)
-            setTimeout(() => connect(), 1000)
+            !reconnectTimeout && setReconnectTimeout(setTimeout(() => connect(), 1000))
         }
 
         newWs.onerror = (error: unknown) => {
-            addNotification({
-                type: 'error',
-                message: 'Ошибка соединения с сервером' + error,
-            })
+            if (!idRetry.current) {
+                addNotification({
+                    type: 'error',
+                    message: 'Ошибка соединения с сервером',
+                })
+            }
             console.error('WebSocket ошибка:', error)
             newWs.close()
         }
 
         newWs.onmessage = (event) => {
+            removeNotification(idRetry.current)
+            idRetry.current = null
             try {
                 const response = JSON.parse(event.data)
                 console.log('🚀 onMessage:', response)
                 switch (response.type) {
                     case 'local_search_chunk': {
-                        setIsLoading(false)
                         const newMessages = [...useChatStore.getState().messages]
                         newMessages.push({
                             type: 'bot',
                             content: response.text + '\n',
                             isMarkdown: true,
+                            tag: response.type,
                         })
                         setMessages(newMessages)
                         break
                     }
                     case 'global_search_chunk':
                     case 'chunk': {
-                        setIsLoading(false)
                         const newMessages = [...useChatStore.getState().messages]
                         const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
-                        if (lastMessage?.type === 'bot') {
+                        const sameTag = lastMessage?.tag ?? '' === response.type
+                        if (lastMessage?.type === 'bot' && sameTag) {
                             newMessages[newMessages.length - 1] = {
                                 ...lastMessage,
                                 content: lastMessage.content + response.text,
@@ -73,6 +82,7 @@ export const useWebSocketService = () => {
                             newMessages.push({
                                 type: 'bot',
                                 content: response.text,
+                                tag: response.type,
                             })
                         }
                         setMessages(newMessages)
@@ -86,7 +96,6 @@ export const useWebSocketService = () => {
                         break
                     }
                     case 'get_all_context': {
-                        setIsLoading(false)
                         break
                     }
                     case 'index': {
@@ -102,6 +111,7 @@ export const useWebSocketService = () => {
                     }
                     case 'complete':
                         setIsLoading(false)
+                        setSeverityLevel('success')
                         break
                     case 'error':
                         addNotification({
@@ -137,12 +147,25 @@ export const useWebSocketService = () => {
                 setIsLoading(false)
             }
         }
-    }
+    }, [
+        addNotification,
+        reconnectTimeout,
+        removeNotification,
+        setIsLoading,
+        setMessages,
+        setPinnedSuggestions,
+        setReconnectTimeout,
+        setSuggestions,
+        setWs,
+    ])
 
     const sendJsonMessage = useCallback((message: unknown) => useWsStore.getState().ws?.send(JSON.stringify(message)), [])
 
     const sendMessageWithType = useCallback(
         (message: string | Suggestion, type = 'question') => {
+            if (message === '') {
+                return
+            }
             sendJsonMessage({
                 type: type,
                 message: message,

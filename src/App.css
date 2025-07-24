@@ -21,9 +21,14 @@
   height: 100vh;
 }
 
+main {
+  width: 100%;
+}
+
 /* Переопределдение стандартного стиля уведомления для смещения ниже навбара*/
 .notificationContainer {
   top: 64px;
+  left: 0;
 }
 .notificationContainer .rnc__notification {
   width: calc(50vw - 35px)!important

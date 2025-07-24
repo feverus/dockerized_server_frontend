@@ -8,8 +8,8 @@ import styles from './NotificationComponent.module.css'
 export const useNotificationsService = () => {
     const { setSeverityLevel } = useChatStore()
 
-    const removeNotification = (key: string) => {
-        Store.removeNotification(key)
+    const removeNotification = (id: string | null) => {
+        id && Store.removeNotification(id)
     }
 
     const addNotification = ({ type = 'info', message = '', autoHideDuration = 5000 }: AddNotificationProps) => {
@@ -58,9 +58,12 @@ export const useNotificationsService = () => {
                 return <NotificationComponent id={id} type={type} message={message} onClose={removeNotification} />
             },
         })
+
+        return id
     }
 
     return {
         addNotification,
+        removeNotification,
     }
 }

@@ -1,60 +1,26 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { styled, useTheme, Box, CssBaseline } from '@mui/material'
+import { Box, CssBaseline } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
-import { ReactNotifications } from 'react-notifications-component'
-import 'react-notifications-component/dist/theme.css'
 
 import { DrawerHeader } from './components'
 import { Navbar, Sidebar } from './features'
 import { LoginPage, ChatPage } from './pages'
-import { useAuthStore, useMenuStore } from './store'
+import { useAuthStore } from './store'
 import { themeLight, themeDark } from './themes'
 import { PrivateRoute } from './utils'
-import { DRAWER_WIDTH } from './assets'
 import './App.css'
 
 export default function App() {
     const user = useAuthStore((state) => state.user)
-    const { isMenuOpened } = useMenuStore()
-    const theme = useTheme()
     const light = true //const [light, setLight] = useState(false)
-
-    const menuСonditionalOptions = isMenuOpened
-        ? {
-              transition: theme.transitions.create('margin', {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.leavingScreen,
-              }),
-              marginLeft: `-${DRAWER_WIDTH}px`,
-              '@media (min-width: 1000px)': {
-                  marginLeft: 0,
-              },
-              ...(!user && {
-                  marginLeft: 0,
-              }),
-          }
-        : {
-              transition: theme.transitions.create('margin', {
-                  easing: theme.transitions.easing.easeOut,
-                  duration: theme.transitions.duration.enteringScreen,
-              }),
-              marginLeft: 0,
-          }
-
-    const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme }) => ({
-        flexGrow: 1,
-        padding: theme.spacing(0),
-        ...menuСonditionalOptions,
-    }))
 
     return (
         <ThemeProvider theme={light ? themeLight : themeDark}>
-            <ReactNotifications className={'notificationContainer'} />
             <Box sx={{ display: 'flex' }}>
                 <CssBaseline />
                 <Navbar />
                 <Sidebar />
-                <Main>
+                <main>
                     {user && <DrawerHeader />}
                     <Routes>
                         <Route path="/" element={<PrivateRoute />}>
@@ -67,7 +33,7 @@ export default function App() {
                         <Route path="/login" element={user ? <Navigate to="/chat" replace /> : <LoginPage />} />
                         <Route path="*" element={<Navigate to="/chat" replace />} />
                     </Routes>
-                </Main>
+                </main>
             </Box>
         </ThemeProvider>
     )

@@ -5,6 +5,8 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
 
 import { useChatStore } from '../../store'
+import { Tag } from './Tag'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './Terminal.module.css'
 
 export const Terminal = () => {
@@ -57,7 +59,6 @@ export const Terminal = () => {
                                 maxWidth: '80%',
                                 bgcolor: message.type === 'user' ? 'primary.light' : 'background.paper',
                                 color: message.type === 'user' ? 'white' : 'text.primary',
-                                //whiteSpace: 'pre-wrap',
                             }}
                         >
                             {message.isMarkdown ? (
@@ -65,6 +66,7 @@ export const Terminal = () => {
                             ) : (
                                 <Typography>{message.content}</Typography>
                             )}
+                            {message.tag && <Tag tag={message.tag} />}
                         </Paper>
 
                         {message.type === 'user' && (

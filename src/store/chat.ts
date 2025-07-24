@@ -13,6 +13,7 @@ type Message = {
     type: string
     content: string
     isMarkdown?: boolean
+    tag?: string
 }
 type State = {
     severityLevel: SeverityLevels

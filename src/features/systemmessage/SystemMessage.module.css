@@ -6,16 +6,16 @@
 }
 
 .error {
-  background-color: #dc3545;
-  cursor: not-allowed;
+  background: radial-gradient(circle,#dc3545 20%, #dc354550 50%, #dc354500 65%);
+  cursor: wait;
 }
 .success {
-  background-color: #28a745;
+  background: radial-gradient(circle,#28a745 20%, #28a74550 50%, #28a74500 65%);
 }
 .info {
-  background-color: #17a2b8;
+  background: radial-gradient(circle, #17a2b8 20%, #17a2b850 50%, #17a2b800 65%);
   cursor: wait;
 }
 .warning {
-  background-color: #eab000;
+  background: radial-gradient(circle, #eab000 20%, #eab00050 50%, #eab00080 65%);
 }
