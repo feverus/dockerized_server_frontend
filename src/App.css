@@ -1,3 +1,13 @@
+:root {
+  --bgColorSearchSettings: #b3d6d6;
+  --bgColorChatUser: #307090;
+  --colorChatUser: #fefefe;
+  --bgColorChatBot: #f0f0f0;
+  --colorChaBot: #3d3d3d;
+  --bgColorSuggestions: #42a5f51a;
+  --bgColorPinnedSuggestions: #42a5f51a;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -31,5 +41,5 @@ main {
   left: 0;
 }
 .notificationContainer .rnc__notification {
-  width: calc(50vw - 35px)!important
+  width: calc(50vw - 35px) !important;
 }

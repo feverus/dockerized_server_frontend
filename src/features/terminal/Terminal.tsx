@@ -22,7 +22,7 @@ export const Terminal = () => {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 2, mb: 2 }}>
+        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 2, pb: 0, mb: 0 }}>
             {messages.length === 0 ? (
                 <Box
                     sx={{
@@ -53,12 +53,13 @@ export const Terminal = () => {
 
                         <Paper
                             elevation={1}
+                            className={message.type === 'user' ? styles.user : styles.bot}
                             sx={{
-                                p: 2,
-                                borderRadius: 2,
+                                pt: 1,
+                                pb: 1,
+                                pl: 2,
+                                pr: 2,
                                 maxWidth: '80%',
-                                bgcolor: message.type === 'user' ? 'primary.light' : 'background.paper',
-                                color: message.type === 'user' ? 'white' : 'text.primary',
                             }}
                         >
                             {message.isMarkdown ? (

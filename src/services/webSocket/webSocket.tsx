@@ -55,7 +55,7 @@ export const useWebSocketService = () => {
             idRetry.current = null
             try {
                 const response = JSON.parse(event.data)
-                console.log('🚀 onMessage:', response)
+                //console.log('🚀 onMessage:', response)
                 switch (response.type) {
                     case 'local_search_chunk': {
                         const newMessages = [...useChatStore.getState().messages]
@@ -72,7 +72,10 @@ export const useWebSocketService = () => {
                     case 'chunk': {
                         const newMessages = [...useChatStore.getState().messages]
                         const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
-                        const sameTag = lastMessage?.tag ?? '' === response.type
+                        const sameTag = (lastMessage?.tag ?? '') === response.type
+                        console.log("🚀 ~ useWebSocketService ~ response.type:", response.type)
+                        console.log("🚀 ~ useWebSocketService ~ lastMessage:", lastMessage)
+                        console.log("🚀 ~ useWebSocketService ~ sameTag:", sameTag)
                         if (lastMessage?.type === 'bot' && sameTag) {
                             newMessages[newMessages.length - 1] = {
                                 ...lastMessage,
@@ -155,6 +158,7 @@ export const useWebSocketService = () => {
         setMessages,
         setPinnedSuggestions,
         setReconnectTimeout,
+        setSeverityLevel,
         setSuggestions,
         setWs,
     ])

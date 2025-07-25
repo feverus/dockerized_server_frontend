@@ -25,6 +25,7 @@ export const SuggestionsItem = ({ needBorderBottom, suggestion }: SuggestionsIte
                 },
                 borderBottom: needBorderBottom ? '1px solid #f0f0f0' : 'none',
             }}
+            onClick={() => sendMessageWithType(suggestion, 'pin_context')}
         >
             <Typography
                 variant="body2"
@@ -38,7 +39,7 @@ export const SuggestionsItem = ({ needBorderBottom, suggestion }: SuggestionsIte
             >
                 {suggestion.chunk_text}
             </Typography>
-            <IconButton size="small" onClick={() => sendMessageWithType(suggestion, 'pin_context')} sx={{ ml: 1 }}>
+            <IconButton size="small"  sx={{ ml: 1 }} disabled>
                 <PushPinOutlinedIcon fontSize="small" />
             </IconButton>
         </Box>

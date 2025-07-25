@@ -17,11 +17,7 @@ export const Suggestions = () => {
         <Paper className={styles.wrapper} elevation={3}>
             {pinnedSuggestions.length > 0 && (
                 <Box
-                    sx={{
-                        p: 1,
-                        borderBottom: '1px solid #e0e0e0',
-                        bgcolor: 'rgba(66, 165, 245, 0.1)',
-                    }}
+                    className={styles.pinnedSuggestions}
                 >
                     <Typography variant="caption" sx={{ display: 'block', mb: 1, color: 'text.secondary' }}>
                         Закрепленный контекст

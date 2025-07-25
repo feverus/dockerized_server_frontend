@@ -1,3 +1,8 @@
-.inputWrapper input:disabled {
+.inputWrapper {
+  input {
+    padding: 8px 12px;
+  }
+  input:disabled {
     background-color: #cccccc;
+  }
 }

@@ -17,5 +17,5 @@
   cursor: wait;
 }
 .warning {
-  background: radial-gradient(circle, #eab000 20%, #eab00050 50%, #eab00080 65%);
+  background: radial-gradient(circle, #eab000 20%, #eab00050 50%, #eab00000 65%);
 }

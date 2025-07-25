@@ -30,34 +30,30 @@ export const ChatInput = () => {
     }
 
     return (
-        <Box sx={{ mt: 'auto' }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Box sx={{ position: 'relative', flexGrow: 1 }}>
-                    <TextField
-                        fullWidth
-                        placeholder="Введите ваше сообщение..."
-                        value={inputMessage}
-                        onChange={(e) => {
-                            setInputMessage(e.target.value)
-                            sendMessageWithType(e.target.value, 'index')
-                        }}
-                        onKeyDown={handleInputKeyDown}
-                        variant="outlined"
-                        disabled={isLoading}
-                        className={styles.inputWrapper}
-                    />
-                </Box>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <TextField
+                fullWidth
+                placeholder="Введите ваше сообщение..."
+                value={inputMessage}
+                onChange={(e) => {
+                    setInputMessage(e.target.value)
+                    sendMessageWithType(e.target.value, 'index')
+                }}
+                onKeyDown={handleInputKeyDown}
+                variant="outlined"
+                disabled={isLoading}
+                className={styles.inputWrapper}
+            />
 
-                <IconButton
-                    color="primary"
-                    type="submit"
-                    disabled={isLoading || !inputMessage.trim()}
-                    sx={{ ml: 1, width: 56, height: 56 }}
-                    onClick={sendMessage}
-                >
-                    <SendIcon />
-                </IconButton>
-            </Box>
+            <IconButton
+                color="primary"
+                type="submit"
+                disabled={isLoading || !inputMessage.trim()}
+                sx={{ ml: 1, width: 56, height: 56 }}
+                onClick={sendMessage}
+            >
+                <SendIcon />
+            </IconButton>
         </Box>
     )
 }

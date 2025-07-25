@@ -4,4 +4,10 @@
   max-height: 100%;
   overflow: auto;
   width: calc(50vw - 35px);
+  background-color: var(--bgColorSuggestions) !important;
+}
+.pinnedSuggestions {
+  background-color: var(--bgColorPinnedSuggestions);
+  border-bottom: 1px solid #e0e0e0;
+  padding: 8px;
 }

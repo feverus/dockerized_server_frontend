@@ -1,3 +1,13 @@
 ul, ol {
     padding-left: 20px;
 }
+.user {
+    background-color: var(--bgColorChatUser) !important;
+    color: var(--colorChatUser) !important;
+    border-radius: 8px 0 8px 8px !important;
+}
+.bot {
+    background-color: var(--bgColorChatBot) !important;
+    color: var(--colorChaBot) !important;
+    border-radius: 0 8px 8px 8px !important;
+}
