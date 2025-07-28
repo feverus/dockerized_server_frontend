@@ -9,15 +9,18 @@ export type Suggestion = {
     similarity_score: bigint
     source: string
 }
-type Message = {
+export type Message = {
     type: string
     content: string
     isMarkdown?: boolean
     tag?: string
+    timestamp: number
+    duration: number
 }
 type State = {
     severityLevel: SeverityLevels
     isLoading: boolean
+    isSettingsOpened: boolean
     inputMessage: string
     suggestions: Suggestion[]
     messages: Message[]
@@ -27,6 +30,7 @@ type Action = {
     setSeverityLevel: (severityLevel: SeverityLevels) => void
     setInputMessage: (inputMessage: string) => void
     setIsLoading: (isLoading: boolean) => void
+    setIsSettingsOpened: (isSettingsOpened: boolean) => void
     setSuggestions: (suggestions: Suggestion[]) => void
     setMessages: (messages: Message[]) => void
     setPinnedSuggestions: (pinnedSuggestions: Suggestion[]) => void
@@ -48,6 +52,7 @@ const loadSavedMessages = () => {
 const initialState: State = {
     severityLevel: 'error',
     isLoading: false,
+    isSettingsOpened: false,
     inputMessage: JSON.parse(localStorage.getItem(CHAT_INPUT_STORAGE_KEY) ?? '""'),
     suggestions: [],
     messages: loadSavedMessages(),
@@ -81,6 +86,11 @@ export const useChatStore = create(
         setIsLoading: (isLoading) => {
             set((state) => {
                 state.isLoading = isLoading
+            })
+        },
+        setIsSettingsOpened: (isSettingsOpened: boolean) => {
+            set((state) => {
+                state.isSettingsOpened = isSettingsOpened
             })
         },
         setPinnedSuggestions: (pinnedSuggestions) => {

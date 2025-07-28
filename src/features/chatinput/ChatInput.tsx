@@ -6,8 +6,17 @@ import { useChatStore } from '../../store'
 import styles from './ChatInput.module.css'
 
 export const ChatInput = () => {
-    const { setSuggestions, messages, setMessages, isLoading, setIsLoading, setPinnedSuggestions, inputMessage, setInputMessage } =
-        useChatStore()
+    const {
+        setSuggestions,
+        messages,
+        setMessages,
+        isLoading,
+        isSettingsOpened,
+        setIsLoading,
+        setPinnedSuggestions,
+        inputMessage,
+        setInputMessage,
+    } = useChatStore()
     const { sendMessageWithType } = useWebSocketService()
 
     const sendMessage = () => {
@@ -17,7 +26,15 @@ export const ChatInput = () => {
             return
         }
         setIsLoading(true)
-        setMessages([...messages, { type: 'user', content: inputMessage }])
+        setMessages([
+            ...messages,
+            {
+                type: 'user',
+                content: inputMessage,
+                timestamp: new Date().getTime(),
+                duration: 0,
+            },
+        ])
         setInputMessage('')
         sendMessageWithType(inputMessage)
     }
@@ -41,7 +58,7 @@ export const ChatInput = () => {
                 }}
                 onKeyDown={handleInputKeyDown}
                 variant="outlined"
-                disabled={isLoading}
+                disabled={isLoading || isSettingsOpened}
                 className={styles.inputWrapper}
             />
 

@@ -16,7 +16,7 @@ type Action = {
 const initialState: State = {
     chatSearchType: { id: 'both', name: 'Оба' },
     chatGraphSearchType: { id: 'both', name: 'Оба' },
-    chatGraphSearchResponseType: { id: 'Single Sentence', name: 'Предложение' },
+    chatGraphSearchResponseType: { id: 'Multiple Paragraphs', name: 'Несколько параграфов' },
 }
 
 export const useSettingsStore = create(

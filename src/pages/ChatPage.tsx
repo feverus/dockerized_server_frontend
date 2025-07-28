@@ -1,4 +1,5 @@
 import { Paper } from '@mui/material'
+import Split from 'react-split'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
@@ -7,17 +8,19 @@ import styles from './ChatPage.module.css'
 
 export const ChatPage = () => {
     return (
-        <div className={styles.wrapper}>
+        <>
             <ReactNotifications className={'notificationContainer'} />
-            <Paper className={styles.half}>
-                <Suggestions />
-                <SearchSettings />
-            </Paper>
-            <Paper className={styles.half}>
-                <ChatHeader />
-                <Terminal />
-                <ChatInput />
-            </Paper>
-        </div>
+            <Split direction="horizontal" sizes={[50, 50]} className={styles.wrapper} minSize={[200, 500]} snapOffset={10}>
+                <Paper className={styles.half}>
+                    <Suggestions />
+                </Paper>
+                <Paper className={styles.half}>
+                    <ChatHeader />
+                    <Terminal />
+                    <SearchSettings />
+                    <ChatInput />
+                </Paper>
+            </Split>
+        </>
     )
 }

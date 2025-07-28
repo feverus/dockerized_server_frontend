@@ -41,5 +41,5 @@ main {
   left: 0;
 }
 .notificationContainer .rnc__notification {
-  width: calc(50vw - 35px) !important;
+  width: 300px !important;
 }

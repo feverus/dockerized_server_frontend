@@ -33,6 +33,7 @@ export const Tag = ({ tag }: TagProps) => {
             size="small"
             sx={{
                 backgroundColor: getColor(tag),
+                marginRight: '10px',
                 marginTop: '10px',
                 borderRadius: '5px',
             }}

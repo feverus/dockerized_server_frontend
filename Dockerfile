@@ -16,6 +16,7 @@ RUN npm install
 COPY ./public ./public
 COPY ./src ./src
 COPY ./vite.config.ts ./
+COPY ./.env ./
 COPY ./index.html ./
 
 EXPOSE 3000

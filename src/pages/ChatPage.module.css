@@ -1,16 +1,18 @@
 .wrapper {
   height: calc(100vh - 64px);
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  gap: 10px;
   padding: 10px;
+  display: flex;
 }
 .half {
-  flex: 1;
   padding: 10px;
   gap: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+}
+:global(.gutter) {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==");
+  cursor: col-resize;
 }

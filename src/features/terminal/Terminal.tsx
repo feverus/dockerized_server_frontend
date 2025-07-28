@@ -5,9 +5,12 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
 
 import { useChatStore } from '../../store'
-import { Tag } from './Tag'
+import { Tag } from './tag'
+import { Timestamp } from './timestamp'
+import { DaySeparator } from './dayseparator'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './Terminal.module.css'
+import { formatFullTime } from '../../utils'
 
 export const Terminal = () => {
     const { messages, isLoading } = useChatStore()
@@ -37,45 +40,54 @@ export const Terminal = () => {
                 </Box>
             ) : (
                 messages.map((message, index) => (
-                    <Box
-                        key={index}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
-                            mb: 2,
-                        }}
-                    >
-                        {message.type === 'bot' && (
-                            <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
-                                <SmartToyIcon />
-                            </Avatar>
-                        )}
+                    <>
+                        <DaySeparator messages={messages} index={index} />
 
-                        <Paper
-                            elevation={1}
-                            className={message.type === 'user' ? styles.user : styles.bot}
+                        <Box
+                            key={index}
                             sx={{
-                                pt: 1,
-                                pb: 1,
-                                pl: 2,
-                                pr: 2,
-                                maxWidth: '80%',
+                                display: 'flex',
+                                justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
+                                mb: 2,
                             }}
                         >
-                            {message.isMarkdown ? (
-                                <ReactMarkdown>{message.content}</ReactMarkdown>
-                            ) : (
-                                <Typography>{message.content}</Typography>
+                            {message.type === 'bot' && (
+                                <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
+                                    <SmartToyIcon />
+                                </Avatar>
                             )}
-                            {message.tag && <Tag tag={message.tag} />}
-                        </Paper>
 
-                        {message.type === 'user' && (
-                            <Avatar sx={{ bgcolor: 'secondary.main', ml: 1 }}>
-                                <PersonIcon />
-                            </Avatar>
-                        )}
-                    </Box>
+                            <Paper
+                                elevation={1}
+                                className={message.type === 'user' ? styles.user : styles.bot}
+                                sx={{
+                                    pt: 1,
+                                    pb: 1,
+                                    pl: 2,
+                                    pr: 2,
+                                    maxWidth: '80%',
+                                }}
+                            >
+                                {message.isMarkdown ? (
+                                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                                ) : (
+                                    <Typography>{message.content}</Typography>
+                                )}
+
+                                {message.tag && <Tag tag={message.tag} />}
+
+                                {message.type === 'bot' && <Tag tag={formatFullTime(message.duration)} />}
+
+                                <Timestamp timestamp={message.timestamp} />
+                            </Paper>
+
+                            {message.type === 'user' && (
+                                <Avatar sx={{ bgcolor: 'secondary.main', ml: 1 }}>
+                                    <PersonIcon />
+                                </Avatar>
+                            )}
+                        </Box>
+                    </>
                 ))
             )}
 

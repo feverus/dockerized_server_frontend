@@ -1,6 +1,7 @@
 .inputWrapper {
   input {
     padding: 8px 12px;
+    transition: background-color 200ms;
   }
   input:disabled {
     background-color: #cccccc;
