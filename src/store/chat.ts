@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
+
 import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../assets'
 
 type SeverityLevels = 'error' | 'success' | 'warning' | 'info'
@@ -36,26 +37,13 @@ type Action = {
     setPinnedSuggestions: (pinnedSuggestions: Suggestion[]) => void
 }
 
-const loadSavedMessages = () => {
-    try {
-        const savedMessages = localStorage.getItem(CHAT_STORAGE_KEY)
-        if (savedMessages) {
-            return JSON.parse(savedMessages)
-        }
-        return []
-    } catch (error) {
-        console.error('Ошибка загрузки сообщений:', error)
-        return []
-    }
-}
-
 const initialState: State = {
     severityLevel: 'error',
     isLoading: false,
     isSettingsOpened: false,
-    inputMessage: JSON.parse(localStorage.getItem(CHAT_INPUT_STORAGE_KEY) ?? '""'),
+    inputMessage: '',
     suggestions: [],
-    messages: loadSavedMessages(),
+    messages: [],
     pinnedSuggestions: [],
 }
 

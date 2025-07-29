@@ -3,7 +3,7 @@
     padding: 8px 12px;
     transition: background-color 200ms;
   }
-  input:disabled {
-    background-color: #cccccc;
-  }
+}
+.inputWrapper input:disabled {
+  background-color: var(--bgColorDisabled);
 }

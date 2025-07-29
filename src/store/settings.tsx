@@ -1,22 +1,34 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import type { SearchType, GraphSearchType, GraphSearchResponseType } from '../models'
+import {
+    type SearchType,
+    type GraphSearchType,
+    type GraphSearchResponseType,
+    type SchemeType,
+    SchemeTypes,
+    GraphSearchResponseTypes,
+    SearchTypes,
+    GraphSearchTypes,
+} from '../models'
 
 type State = {
     chatSearchType: SearchType
     chatGraphSearchType: GraphSearchType
     chatGraphSearchResponseType: GraphSearchResponseType
+    commonScheme: SchemeType
 }
 type Action = {
     setСhatSearchType: (type: SearchType) => void
     setChatGraphSearchType: (type: GraphSearchType) => void
     setChatGraphSearchResponseType: (type: GraphSearchResponseType) => void
+    setCommonScheme: (id: string) => void
 }
 const initialState: State = {
-    chatSearchType: { id: 'both', name: 'Оба' },
-    chatGraphSearchType: { id: 'both', name: 'Оба' },
-    chatGraphSearchResponseType: { id: 'Multiple Paragraphs', name: 'Несколько параграфов' },
+    chatSearchType: SearchTypes[2],
+    chatGraphSearchType: GraphSearchTypes[2],
+    chatGraphSearchResponseType: GraphSearchResponseTypes[0],
+    commonScheme: SchemeTypes[0],
 }
 
 export const useSettingsStore = create(
@@ -36,6 +48,14 @@ export const useSettingsStore = create(
         setChatGraphSearchResponseType: (type: GraphSearchResponseType) => {
             set((state) => {
                 state.chatGraphSearchResponseType = type
+            })
+        },
+        setCommonScheme: (id: string) => {
+            set((state) => {
+                const scheme = SchemeTypes.find((scheme) => id === scheme.id)
+                if (scheme) {
+                    state.commonScheme = scheme
+                }
             })
         },
     })),

@@ -6,8 +6,8 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Collapse, List } from '@mui/material'
 
-import './SubMenu.css'
 import type { SidebarDataItem } from '../../assets'
+import styles from './SubMenu.module.css'
 
 type SubMenuProps = {
     item: SidebarDataItem
@@ -27,6 +27,7 @@ export const SubMenu = ({ item }: SubMenuProps) => {
                 to={item.path}
                 onClick={() => item.subNav && setSubnav(!subnav)}
                 id={item.id}
+                className={styles.item}
             >
                 <ListItemButton selected={location === item.id} onClick={() => navigate(item.path)}>
                     <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>
@@ -46,6 +47,7 @@ export const SubMenu = ({ item }: SubMenuProps) => {
                                     to={item.path}
                                     onClick={() => item.subNav && setSubnav(!subnav)}
                                     id={item.id}
+                                    className={styles.item}
                                 >
                                     <ListItemButton selected={location === item.id} onClick={() => navigate(item.path)}>
                                         <ListItemIcon sx={{ color: 'white' }}>{item.icon}</ListItemIcon>

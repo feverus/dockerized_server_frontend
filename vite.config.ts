@@ -1,7 +1,8 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
-import { resolve, parse } from 'path'
+import { resolve, parse, basename } from 'path'
 import * as fs from 'fs'
+import crypto from 'crypto'
 
 const rootPaths = fs.readdirSync('src').reduce((out, item) => {
     const parsed = parse(item)
@@ -19,6 +20,17 @@ export default defineConfig({
             host: 'localhost',
             port: 80,
             protocol: 'ws',
+        },
+    },
+    css: {
+        modules: {
+            scopeBehaviour: 'local',
+            generateScopedName: (name: string, filename: string) =>
+                `${basename(filename, '.module.css')}__${name}__${crypto
+                    .createHash('sha256')
+                    .update(filename)
+                    .digest('hex')
+                    .substring(0, 5)}`,
         },
     },
     resolve: {

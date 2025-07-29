@@ -1,0 +1,7 @@
+.item {
+    color: var(--colorChatUser);
+    transition-duration: 200ms;
+}
+.item:hover {
+    background-color: var(--bgColorChatUser);
+}

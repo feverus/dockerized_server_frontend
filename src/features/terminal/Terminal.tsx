@@ -4,7 +4,7 @@ import { Box, Typography, Avatar, Paper, CircularProgress } from '@mui/material'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
 
-import { useChatStore } from '../../store'
+import { useChatStore, type Message } from '../../store'
 import { Tag } from './tag'
 import { Timestamp } from './timestamp'
 import { DaySeparator } from './dayseparator'
@@ -24,95 +24,84 @@ export const Terminal = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
     }
 
-    return (
-        <Box sx={{ flexGrow: 1, overflow: 'auto', p: 2, pb: 0, mb: 0 }}>
-            {messages.length === 0 ? (
+    const getMessage = (message: Message, index: number) => {
+        return (
+            <div key={index}>
+                <DaySeparator messages={messages} index={index} />
+
                 <Box
+                    key={index}
                     sx={{
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                        color: 'text.secondary',
+                        justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
+                        mb: 2,
                     }}
                 >
-                    <Typography variant="body1">Начните диалог, отправив сообщение</Typography>
-                </Box>
-            ) : (
-                messages.map((message, index) => (
-                    <>
-                        <DaySeparator messages={messages} index={index} />
+                    {message.type === 'bot' && (
+                        <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
+                            <SmartToyIcon />
+                        </Avatar>
+                    )}
 
-                        <Box
-                            key={index}
-                            sx={{
-                                display: 'flex',
-                                justifyContent: message.type === 'user' ? 'flex-end' : 'flex-start',
-                                mb: 2,
-                            }}
-                        >
-                            {message.type === 'bot' && (
-                                <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
-                                    <SmartToyIcon />
-                                </Avatar>
-                            )}
-
-                            <Paper
-                                elevation={1}
-                                className={message.type === 'user' ? styles.user : styles.bot}
-                                sx={{
-                                    pt: 1,
-                                    pb: 1,
-                                    pl: 2,
-                                    pr: 2,
-                                    maxWidth: '80%',
-                                }}
-                            >
-                                {message.isMarkdown ? (
-                                    <ReactMarkdown>{message.content}</ReactMarkdown>
-                                ) : (
-                                    <Typography>{message.content}</Typography>
-                                )}
-
-                                {message.tag && <Tag tag={message.tag} />}
-
-                                {message.type === 'bot' && <Tag tag={formatFullTime(message.duration)} />}
-
-                                <Timestamp timestamp={message.timestamp} />
-                            </Paper>
-
-                            {message.type === 'user' && (
-                                <Avatar sx={{ bgcolor: 'secondary.main', ml: 1 }}>
-                                    <PersonIcon />
-                                </Avatar>
-                            )}
-                        </Box>
-                    </>
-                ))
-            )}
-
-            {isLoading && (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-start', mb: 2 }}>
-                    <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
-                        <SmartToyIcon />
-                    </Avatar>
                     <Paper
-                        elevation={1}
+                        elevation={0}
+                        className={message.type === 'user' ? styles.user : styles.bot}
                         sx={{
-                            p: 2,
-                            borderRadius: 2,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            pt: 1,
+                            pb: 1,
+                            pl: 2,
+                            pr: 2,
+                            maxWidth: '80%',
                         }}
                     >
-                        <CircularProgress size={20} />
-                        <Typography variant="body2" sx={{ ml: 1 }}>
-                            Происходит интеллектуальный поиск...
-                        </Typography>
+                        {message.isMarkdown ? <ReactMarkdown>{message.content}</ReactMarkdown> : <Typography>{message.content}</Typography>}
+
+                        {message.tag && <Tag tag={message.tag} />}
+
+                        {message.type === 'bot' && message.duration > 1000 && <Tag tag={formatFullTime(message.duration)} />}
+
+                        <Timestamp timestamp={message.timestamp} />
                     </Paper>
+
+                    {message.type === 'user' && (
+                        <Avatar sx={{ bgcolor: 'secondary.main', ml: 1 }}>
+                            <PersonIcon />
+                        </Avatar>
+                    )}
                 </Box>
-            )}
+            </div>
+        )
+    }
+
+    const getWelcome = () => {
+        return (
+            <Box className={styles.welcome}>
+                <Typography variant="body1">Начните диалог, отправив сообщение</Typography>
+            </Box>
+        )
+    }
+
+    const getProgress = () => {
+        return (
+            <Box className={styles.progress}>
+                <Avatar sx={{ bgcolor: 'primary.main', mr: 1 }}>
+                    <SmartToyIcon />
+                </Avatar>
+                <div className={styles.text}>
+                    <CircularProgress size={20} />
+                    <Typography variant="body2" sx={{ ml: 1 }}>
+                        Происходит интеллектуальный поиск...
+                    </Typography>
+                </div>
+            </Box>
+        )
+    }
+
+    return (
+        <Box className={styles.wrapper}>
+            {messages.length === 0 ? getWelcome() : messages.map((message, index) => getMessage(message, index))}
+
+            {isLoading && getProgress()}
 
             <div ref={messagesEndRef} />
         </Box>

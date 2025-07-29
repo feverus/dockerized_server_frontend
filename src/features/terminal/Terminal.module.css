@@ -1,13 +1,50 @@
-ul, ol {
-    padding-left: 20px;
+.wrapper {
+  flex-grow: 1;
+  overflow: auto;
+  padding: 16px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+  ul,
+  ol {
+    padding-left: 2em;
+  }
+  p {
+    padding-bottom: 1em;
+    text-indent: 2em;
+  }
 }
+
 .user {
-    background-color: var(--bgColorChatUser) !important;
-    color: var(--colorChatUser) !important;
-    border-radius: 8px 0 8px 8px !important;
+  background-color: var(--bgColorChatUser) !important;
+  color: var(--colorChatUser) !important;
+  border-radius: 8px 0 8px 8px !important;
 }
+
 .bot {
-    background-color: var(--bgColorChatBot) !important;
-    color: var(--colorChaBot) !important;
-    border-radius: 0 8px 8px 8px !important;
+  background-color: var(--bgColorChatBot) !important;
+  color: var(--colorChatBot) !important;
+  border-radius: 0 8px 8px 8px !important;
+}
+
+.welcome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: var(--colorChatBot);
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+  .text {
+    display: flex;
+    flex: 100%;
+    justify-content: center;
+    color: var(--colorChatBot);
+  }
+  padding-bottom: 2em;
+  p {
+    padding-bottom: 0;
+  }
 }

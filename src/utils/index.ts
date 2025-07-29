@@ -1,5 +1,6 @@
 export * from './formatFullTime'
 export * from './isSameDay'
+export * from './localStorage'
 export * from './PrivateRoute'
 export * from './returnGreeting'
 export * from './usePrevious'

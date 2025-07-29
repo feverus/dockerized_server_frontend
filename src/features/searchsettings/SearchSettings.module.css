@@ -13,13 +13,13 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  span {
-    color: #7d7d7d;
-    font-size: small;
-  }
+}
+.closed span {
+  color: var(--colorSearchSettings);
+  font-size: small;
 }
 .withoutShadow {
-  box-shadow: none!important;
+  box-shadow: none !important;
 }
 .opened {
   transform-origin: center bottom;
@@ -33,10 +33,7 @@
   justify-content: flex-start;
   gap: 10px;
   padding: 15px 10px;
-  label {
-    background-color: var(--bgColorSearchSettings);
-    padding-right: 8px;
-  }
+
   .select {
     min-width: 240px;
     [role="combobox"] {
@@ -48,6 +45,10 @@
     display: flex;
     justify-content: flex-end;
   }
+}
+.opened label {
+  background-color: var(--bgColorSearchSettings);
+  padding-right: 8px;
 }
 
 @keyframes expandHeight {

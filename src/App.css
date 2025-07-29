@@ -1,11 +1,34 @@
 :root {
+  --bgColorMain: #eee;
+  --bgColorSecond: #ffffff;
+  --bgColorDisabled: #cccccc;
+  --bgColorMenu: #202030;
   --bgColorSearchSettings: #b3d6d6;
+  --colorSearchSettings: #7d7d7d;
   --bgColorChatUser: #307090;
   --colorChatUser: #fefefe;
   --bgColorChatBot: #f0f0f0;
-  --colorChaBot: #3d3d3d;
-  --bgColorSuggestions: #42a5f51a;
-  --bgColorPinnedSuggestions: #42a5f51a;
+  --colorChatBot: #3d3d3d;
+  --bgColorSuggestions: #40a5f520;
+  --borderColorSuggestions: #d0e0eb;
+  --bgColorSuggestionsHover: #0000000a;
+  --bgColorPinnedSuggestions: #40a5f520;
+  .dark {
+    --bgColorMain: #202030;
+    --bgColorSecond: #303040;
+    --bgColorDisabled: #20202a;
+    --bgColorMenu: #202030;
+    --bgColorSearchSettings: #004040;
+    --colorSearchSettings: #959595;
+    --bgColorChatUser: #103040;
+    --colorChatUser: #a0a0a0;
+    --bgColorChatBot: #202020;
+    --colorChatBot: #909090;
+    --bgColorSuggestions: #40a5f520;
+    --borderColorSuggestions: #405070;
+    --bgColorSuggestionsHover: #0000000a;
+    --bgColorPinnedSuggestions: #40a5f520;
+  }
 }
 
 * {
@@ -14,25 +37,9 @@
   padding: 0;
 }
 
-.flex-container {
-  display: flex;
-  min-height: 100vh;
-}
-
-.item1 {
-  flex: 0 1 auto;
-}
-
-.item2 {
-  flex: 1 1 auto;
-}
-
-#root {
-  height: 100vh;
-}
-
 main {
   width: 100%;
+  background-color: var(--bgColorMain);
 }
 
 /* Переопределдение стандартного стиля уведомления для смещения ниже навбара*/
@@ -42,4 +49,99 @@ main {
 }
 .notificationContainer .rnc__notification {
   width: 300px !important;
+}
+
+
+/* Полоса прокрутки для Chrome, Edge and Safari */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(171, 171, 171);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  -webkit-background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 0;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Buttons */
+::-webkit-scrollbar-button:single-button {
+  background-color: inherit;
+  display: block;
+  background-size: 10px;
+  background-repeat: no-repeat;
+}
+
+/* Up */
+::-webkit-scrollbar-button:single-button:vertical:decrement {
+  height: 10px;
+  width: 16px;
+  background-position: center 2px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(171, 171, 171)'><polygon points='50,0 10,50 90,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement:hover {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(112, 112, 112)'><polygon points='50,0 0,50 100,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:decrement:active {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(128, 128, 128)'><polygon points='50,0 0,50 100,50'/></svg>");
+}
+
+/* Down */
+::-webkit-scrollbar-button:single-button:vertical:increment {
+  height: 10px;
+  width: 16px;
+  background-position: center 2px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(171, 171, 171)'><polygon points='10,0 90,0 50,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:increment:hover {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(112, 112, 112)'><polygon points='0,0 100,0 50,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:vertical:increment:active {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='rgb(128, 128, 128)'><polygon points='0,0 100,0 50,50'/></svg>");
+}
+
+/* Left */
+::-webkit-scrollbar-button:single-button:horizontal:decrement {
+  height: 11px;
+  width: 11px;
+  background-position: 4px 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='110' fill='rgb(171, 171, 171)'><polygon points='0,50 50,90 50,10'/></svg>");
+
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:decrement:hover {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='110' fill='rgb(112, 112, 112)'><polygon points='0,50 50,100 50,0'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:decrement:active {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='110' fill='rgb(128, 128, 128)'><polygon points='0,50 50,100 50,0'/></svg>");
+}
+
+/* Right */
+::-webkit-scrollbar-button:single-button:horizontal:increment {
+  height: 12px;
+  width: 12px;
+  background-position: 4px 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='100' fill='rgb(171, 171, 171)'><polygon points='0,10 0,90 50,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:increment:hover {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='100' fill='rgb(112, 112, 112)'><polygon points='0,0 0,100 50,50'/></svg>");
+}
+
+::-webkit-scrollbar-button:single-button:horizontal:increment:active {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='100' fill='rgb(128, 128, 128)'><polygon points='0,0 0,100 50,50'/></svg>");
 }

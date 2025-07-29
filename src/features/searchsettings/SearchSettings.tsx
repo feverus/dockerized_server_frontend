@@ -42,7 +42,7 @@ export const SearchSettings = () => {
         <div className={styles.relative}>
             <Paper
                 className={classNames(styles.wrapper, styles.closed, { [styles.withoutShadow]: open })}
-                elevation={3}
+                elevation={0}
                 onClick={changeOpen}
             >
                 <span>{`Тип поиска: ${chatSearchType.name}`}</span>
@@ -51,7 +51,7 @@ export const SearchSettings = () => {
             </Paper>
 
             {open && (
-                <Paper className={classNames(styles.wrapper, styles.opened)} elevation={3}>
+                <Paper className={classNames(styles.wrapper, styles.opened)} elevation={0}>
                     <FormControl>
                         <InputLabel>Тип поиска</InputLabel>
                         <Select

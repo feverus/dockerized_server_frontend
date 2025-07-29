@@ -1,0 +1,17 @@
+.wrapper {
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.wrapper:hover {
+  cursor: pointer;
+  background-color: var(--bgColorSuggestionsHover);
+}
+.borderBottom {
+  border-bottom: 1px solid var(--borderColorSuggestions);
+}
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

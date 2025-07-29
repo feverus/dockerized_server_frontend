@@ -4,7 +4,6 @@ import { Collapse, IconButton, styled, Toolbar, useScrollTrigger, useTheme } fro
 import MuiList from '@mui/material/List'
 import MenuIcon from '@mui/icons-material/Menu'
 import MuiAppBar from '@mui/material/AppBar'
-import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 import { SubMenu } from '../submenu'
 import { DRAWER_WIDTH } from '../../assets'
@@ -12,31 +11,15 @@ import { useMenuStore, useAuthStore } from '../../store'
 import { useAuthService } from '../../services'
 import { SidebarData } from '../../assets/SidebarData'
 import { SystemMessage } from '../systemmessage'
+import { Logout } from './logout'
+import { ChangeScheme } from './changescheme'
 import styles from './Navbar.module.css'
-
-// Black theme
-const List = styled(MuiList)({
-    // selected и (selected + hover)
-    '&& .Mui-selected, && .Mui-selected:hover': {
-        backgroundColor: 'blue',
-        '&, & .MuiListItemIcon-root': {
-            color: 'white',
-        },
-    },
-    // hover
-    '& .MuiListItemButton-root:hover': {
-        backgroundColor: '#632ce4',
-        '&, & .MuiListItemIcon-root': {
-            color: 'white',
-        },
-    },
-})
 
 export const Navbar = () => {
     const theme = useTheme()
     const { isMenuOpened, setIsMenuOpened } = useMenuStore()
     const { user, authTokens } = useAuthStore()
-    const { logoutUser, getUsername } = useAuthService()
+    const { getUsername } = useAuthService()
     const [greeting, setGreeting] = React.useState('')
 
     const trigger = useScrollTrigger({
@@ -77,7 +60,7 @@ export const Navbar = () => {
     }
 
     return (
-        <AppBar position="fixed" open={isMenuOpened} sx={{ backgroundColor: '#212529' }} elevation={trigger ? 4 : 0}>
+        <AppBar position="fixed" open={isMenuOpened} elevation={trigger ? 4 : 0} className={styles.wrapper}>
             <Toolbar>
                 <IconButton
                     color="inherit"
@@ -92,16 +75,15 @@ export const Navbar = () => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {greeting}
                 </Typography>
-                <IconButton color="inherit" aria-label="logout" onClick={logoutUser} edge="end">
-                    <ExitToAppIcon />
-                </IconButton>
+                <ChangeScheme />
+                <Logout />
             </Toolbar>
-            <Collapse in={isMenuOpened} timeout={2000} className={styles.wrapper}>
-                <List sx={{ overflow: 'auto', height: window.innerHeight - 48 }}>
+            <Collapse in={isMenuOpened} timeout={2000} className={styles.sidebar}>
+                <MuiList sx={{ overflow: 'auto', height: window.innerHeight - 48 }}>
                     {SidebarData.map((item, index) => {
                         return <SubMenu item={item} key={index} />
                     })}
-                </List>
+                </MuiList>
             </Collapse>
         </AppBar>
     )

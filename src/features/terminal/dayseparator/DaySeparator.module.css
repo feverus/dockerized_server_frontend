@@ -1,4 +1,5 @@
 .wrapper {
   text-align: center;
   padding-top: 10px;
+  color: var(--colorChatBot);
 }

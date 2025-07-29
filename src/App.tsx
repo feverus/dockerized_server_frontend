@@ -1,40 +1,62 @@
+import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Box, CssBaseline } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
 
-import { DrawerHeader } from './components'
 import { Navbar, Sidebar } from './features'
 import { LoginPage, ChatPage } from './pages'
-import { useAuthStore } from './store'
-import { themeLight, themeDark } from './themes'
-import { PrivateRoute } from './utils'
+import { useAuthStore, useChatStore, useSettingsStore } from './store'
+import { getCommonSettings, getInputMessage, getSavedMessages, PrivateRoute, saveCommonSettings } from './utils'
+import { SchemeTypes } from './models'
 import './App.css'
 
 export default function App() {
+    const [init, setInit] = useState(false)
     const user = useAuthStore((state) => state.user)
-    const light = true //const [light, setLight] = useState(false)
+    const { setMessages, setInputMessage } = useChatStore()
+    const { commonScheme, setCommonScheme } = useSettingsStore()
+
+    // Инициализация из хранилища браузера
+    useEffect(() => {
+        if (init) {
+            return
+        }
+        setMessages(getSavedMessages())
+        setInputMessage(getInputMessage())
+        const settings = getCommonSettings()
+        setCommonScheme(settings.commonScheme.id)
+        setInit(true)
+    }, [init, setCommonScheme, setInputMessage, setMessages])
+
+    // Переключение темы
+    useEffect(() => {
+        if (!init) {
+            return
+        }
+        SchemeTypes.forEach(({ id }) => {
+            document.body.classList.remove(id)
+        })
+        document.body.classList.add(commonScheme.id)
+        saveCommonSettings()
+    }, [commonScheme, init])
 
     return (
-        <ThemeProvider theme={light ? themeLight : themeDark}>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <Navbar />
-                <Sidebar />
-                <main>
-                    {user && <DrawerHeader />}
-                    <Routes>
-                        <Route path="/" element={<PrivateRoute />}>
-                            <Route path="/chat" element={<ChatPage />} />
-                        </Route>
-                        <Route path="/" element={<PrivateRoute />}>
-                            <Route path="/schedule" element={<ChatPage />} />
-                        </Route>
-                        {/*<Route exact path='/register' element={<Register/>}/>*/}
-                        <Route path="/login" element={user ? <Navigate to="/chat" replace /> : <LoginPage />} />
-                        <Route path="*" element={<Navigate to="/chat" replace />} />
-                    </Routes>
-                </main>
-            </Box>
-        </ThemeProvider>
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <Navbar />
+            <Sidebar />
+            <main>
+                <Routes>
+                    <Route path="/" element={<PrivateRoute />}>
+                        <Route path="/chat" element={<ChatPage />} />
+                    </Route>
+                    <Route path="/" element={<PrivateRoute />}>
+                        <Route path="/schedule" element={<ChatPage />} />
+                    </Route>
+                    {/*<Route exact path='/register' element={<Register/>}/>*/}
+                    <Route path="/login" element={user ? <Navigate to="/chat" replace /> : <LoginPage />} />
+                    <Route path="*" element={<Navigate to="/chat" replace />} />
+                </Routes>
+            </main>
+        </Box>
     )
 }
