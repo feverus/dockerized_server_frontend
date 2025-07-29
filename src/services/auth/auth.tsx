@@ -42,6 +42,7 @@ export const useAuthService = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('access')
+        localStorage.removeItem('current_user')
         const response = await fetch(`${AUTH_API}logout`, {
             method: 'POST',
             headers: {

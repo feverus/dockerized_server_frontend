@@ -7,8 +7,6 @@ import styles from './Suggestions.module.css'
 
 export const Suggestions = () => {
     const { suggestions, pinnedSuggestions } = useChatStore()
-    console.log("🚀 ~ Suggestions ~ pinnedSuggestions:", pinnedSuggestions)
-    console.log("🚀 ~ Suggestions ~ suggestions:", suggestions)
     const pinnedSuggestionsChunks = pinnedSuggestions.map(({ chunk_text }) => chunk_text)
     const notPinnedSuggestions = suggestions
                         .filter(({ chunk_text }) => !pinnedSuggestionsChunks.includes(chunk_text))
