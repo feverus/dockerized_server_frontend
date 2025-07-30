@@ -1,4 +1,9 @@
 .wrapper {
-  font-size: 0.7em;
+  position: relative;
+  top: -10px;
+  right: -10px;
   text-align: right;
+  height: 0;
+  font-size: 0.6em;
+  opacity: 0.6;
 }
