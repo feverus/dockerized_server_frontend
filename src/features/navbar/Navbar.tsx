@@ -18,7 +18,7 @@ import styles from './Navbar.module.css'
 export const Navbar = () => {
     const theme = useTheme()
     const { isMenuOpened, setIsMenuOpened } = useMenuStore()
-    const { user, authTokens } = useAuthStore()
+    const { user } = useAuthStore()
     const { getUsername } = useAuthService()
     const [greeting, setGreeting] = React.useState('')
 
@@ -52,8 +52,8 @@ export const Navbar = () => {
     }))
 
     useEffect(() => {
-        getUsername(authTokens).then((name) => setGreeting(name))
-    }, [authTokens, getUsername, user])
+        getUsername(useAuthStore.getState().authTokens).then((name) => setGreeting(name))
+    }, [getUsername])
 
     if (!user) {
         return null

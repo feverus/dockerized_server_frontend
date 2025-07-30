@@ -22,13 +22,16 @@ export const useAuthService = () => {
             credentials: 'include',
             body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),
         })
+        if (response.status === 401) {
+            alert('Указаны несуществующие данные авторизации')
+            return
+        }
         try {
             const data = await response.json()
             if (Object.prototype.hasOwnProperty.call(data, 'access') && Object.prototype.hasOwnProperty.call(data, 'user')) {
                 setAuthTokens(data.access)
-                setUser(data.user)
                 localStorage.setItem('access', JSON.stringify(data.access))
-                localStorage.setItem('current_user', JSON.stringify(data.user))
+                setUser(data.user)
                 navigate('/profile')
             } else {
                 alert('Something went wrong!')
@@ -42,7 +45,6 @@ export const useAuthService = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('access')
-        localStorage.removeItem('current_user')
         const response = await fetch(`${AUTH_API}logout`, {
             method: 'POST',
             headers: {
@@ -70,18 +72,20 @@ export const useAuthService = () => {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-            body: JSON.stringify({ access: authTokens }),
+            //body: JSON.stringify({ access: authTokens }),
         })
         try {
             const data = await response.json()
             if (Object.prototype.hasOwnProperty.call(data, 'access')) {
                 setAuthTokens(data.access)
                 localStorage.setItem('access', JSON.stringify(data.access))
+                interval.current = setTimeout(() => updateToken(), REFRESH_INTERVAL)
             } else {
                 logoutUser()
             }
         } catch (e) {
             console.error(e)
+            logoutUser()
         }
     }, [authTokens, logoutUser, setAuthTokens])
 
@@ -119,25 +123,22 @@ export const useAuthService = () => {
     const init = useCallback(() => {
         const authTokens = localStorage.getItem('access')
         authTokens && setAuthTokens(authTokens)
-        const user = localStorage.getItem('current_user')
-        user && setUser(user)
         setInitialized(true)
-    }, [setAuthTokens, setInitialized, setUser])
+    }, [setAuthTokens, setInitialized])
 
     useEffect(() => {
         if (!initialized) {
             init()
-        } else {
-            interval.current = setInterval(() => updateToken(), REFRESH_INTERVAL)
         }
         return () => {
             interval.current && clearInterval(interval.current)
         }
-    }, [init, initialized, updateToken])
+    }, [init, initialized])
 
     return {
         loginUser,
         logoutUser,
         getUsername,
+        updateToken,
     }
 }
