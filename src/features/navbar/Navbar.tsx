@@ -13,6 +13,7 @@ import { SidebarData } from '../../assets/SidebarData'
 import { SystemMessage } from '../systemmessage'
 import { Logout } from './logout'
 import { ChangeScheme } from './changescheme'
+import { returnGreeting } from '../../utils'
 import styles from './Navbar.module.css'
 
 export const Navbar = () => {
@@ -52,7 +53,7 @@ export const Navbar = () => {
     }))
 
     useEffect(() => {
-        getUsername(useAuthStore.getState().authTokens).then((name) => setGreeting(name))
+        getUsername(useAuthStore.getState().authTokens).then((name) => setGreeting(returnGreeting(name)))
     }, [getUsername])
 
     if (!user) {

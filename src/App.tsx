@@ -7,6 +7,7 @@ import { LoginPage, ChatPage } from './pages'
 import { useAuthStore, useChatStore, useSettingsStore } from './store'
 import { getCommonSettings, getInputMessage, getSavedMessages, PrivateRoute, saveCommonSettings } from './utils'
 import { SchemeTypes } from './models'
+import { useAuthService } from './services'
 import './App.css'
 
 export default function App() {
@@ -14,18 +15,20 @@ export default function App() {
     const user = useAuthStore((state) => state.user)
     const { setMessages, setInputMessage } = useChatStore()
     const { commonScheme, setCommonScheme } = useSettingsStore()
+    const { getUsername } = useAuthService()
 
     // Инициализация из хранилища браузера
     useEffect(() => {
         if (init) {
             return
         }
+        getUsername(useAuthStore.getState().authTokens).then((name) => useAuthStore.getState().setUser(name))
         setMessages(getSavedMessages())
         setInputMessage(getInputMessage())
         const settings = getCommonSettings()
         setCommonScheme(settings.commonScheme.id)
         setInit(true)
-    }, [init, setCommonScheme, setInputMessage, setMessages])
+    }, [getUsername, init, setCommonScheme, setInputMessage, setMessages])
 
     // Переключение темы
     useEffect(() => {
@@ -39,6 +42,10 @@ export default function App() {
         saveCommonSettings()
     }, [commonScheme, init])
 
+    if (!init) {
+        return
+    }
+    
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />

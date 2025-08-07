@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store'
 import { REFRESH_INTERVAL } from '../../assets'
 import type { LoginUserProps } from './auth.types'
-import { returnGreeting } from '../../utils'
 
 const AUTH_API = import.meta.env.VITE_AUTH_API
 
@@ -105,7 +104,7 @@ export const useAuthService = () => {
                 })
                 if (response.status === 200) {
                     const data = await response.json()
-                    return returnGreeting(data.user)
+                    return data.user
                 } else if (response.statusText === 'Unauthorized') {
                     logoutUser()
                     return ''
