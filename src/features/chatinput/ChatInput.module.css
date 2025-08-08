@@ -2,8 +2,11 @@
   input {
     padding: 8px 12px;
     transition: background-color 200ms;
+    color: var(--colorChatBot);
   }
 }
 .inputWrapper input:disabled {
   background-color: var(--bgColorDisabled);
+  color: var(--colorChatUser);
+  -webkit-text-fill-color: unset;
 }

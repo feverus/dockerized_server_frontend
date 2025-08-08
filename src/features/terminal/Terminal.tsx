@@ -48,13 +48,13 @@ export const Terminal = () => {
                         className={message.type === 'user' ? styles.user : styles.bot}
                         sx={{
                             pt: 1,
-                            pb: 1,
+                            pb: 2,
                             pl: 2,
                             pr: 2,
                             maxWidth: '80%',
                         }}
                     >
-                        {message.isMarkdown ? <ReactMarkdown>{message.content}</ReactMarkdown> : <Typography>{message.content}</Typography>}
+                        <ReactMarkdown>{message.content}</ReactMarkdown>
 
                         {message.tag && <Tag tag={message.tag} />}
 

@@ -13,7 +13,6 @@ export type Suggestion = {
 export type Message = {
     type: string
     content: string
-    isMarkdown?: boolean
     tag?: string
     timestamp: number
     duration: number

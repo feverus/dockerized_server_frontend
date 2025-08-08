@@ -11,6 +11,9 @@
   p {
     padding-bottom: 1em;
   }
+  pre {
+    white-space: normal;
+  }
 }
 
 .user {

@@ -64,7 +64,6 @@ export const useWebSocketService = () => {
                         newMessages.push({
                             type: 'bot',
                             content: response.text + '\n',
-                            isMarkdown: true,
                             tag: response.type,
                             timestamp,
                             duration: timestamp - (lastMessage?.timestamp ?? 0),
@@ -82,7 +81,7 @@ export const useWebSocketService = () => {
                                 ...lastMessage,
                                 content: lastMessage.content + response.text,
                                 timestamp,
-                                duration: timestamp - (lastMessage?.timestamp ?? 0),
+                                duration: newMessages[newMessages.length - 1].duration + timestamp - (lastMessage?.timestamp ?? 0),
                             }
                         } else {
                             newMessages.push({
