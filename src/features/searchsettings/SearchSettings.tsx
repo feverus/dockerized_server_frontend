@@ -4,9 +4,11 @@ import { Button, FormControl, InputLabel, MenuItem, Paper, Select, type SelectCh
 
 import { useChatStore, useSettingsStore } from '../../store'
 import { GraphSearchResponseTypes, GraphSearchTypes, SearchTypes } from '../../models'
+import { useWebSocketService } from '../../services'
 import styles from './SearchSettings.module.css'
 
 export const SearchSettings = () => {
+    const { sendMessageWithType } = useWebSocketService()
     const [open, setOpen] = useState(false)
     const {
         chatSearchType,
@@ -30,7 +32,10 @@ export const SearchSettings = () => {
 
     const handleChangeGraphSearchType = (event: SelectChangeEvent) => {
         const type = GraphSearchTypes.find(({ id }) => id === event.target.value)
-        type && setChatGraphSearchType(type)
+        if (type) {
+            sendMessageWithType('', type.api)
+            setChatGraphSearchType(type)
+        }
     }
 
     const handleChangeGraphSearchResponseType = (event: SelectChangeEvent) => {
