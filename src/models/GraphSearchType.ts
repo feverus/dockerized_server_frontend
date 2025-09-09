@@ -1,6 +1,6 @@
 export const GraphSearchTypes = [
-    { id: 'local_search', name: 'Локальный поиск', api: 'set_graph_local_search_response_type' },
-    { id: 'global_search_advanced', name: 'Глобальный поиск', api: 'set_graph_global_search_advanced_response_type' },
-    { id: 'both', name: 'Оба' },
+    { id: 'local_search', name: 'Локальный поиск', message: ['LOCAL_SEARCH'] },
+    { id: 'global_search_advanced', name: 'Глобальный поиск', message: ['GLOBAL_SEARCH_ADVANCED'] },
+    { id: 'both', name: 'Оба', message: ['LOCAL_SEARCH', 'GLOBAL_SEARCH_ADVANCED'] },
 ]
 export type GraphSearchType = (typeof GraphSearchTypes)[number]

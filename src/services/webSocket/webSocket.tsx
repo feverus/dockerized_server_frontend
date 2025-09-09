@@ -170,7 +170,7 @@ export const useWebSocketService = () => {
     const sendJsonMessage = useCallback((message: unknown) => useWsStore.getState().ws?.send(JSON.stringify(message)), [])
 
     const sendMessageWithType = useCallback(
-        (message: string | Suggestion, type = 'question') => {
+        (message: string | string[] | Suggestion, type = 'question') => {
             if (message === '') {
                 return
             }

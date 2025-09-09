@@ -33,14 +33,22 @@ export const SearchSettings = () => {
     const handleChangeGraphSearchType = (event: SelectChangeEvent) => {
         const type = GraphSearchTypes.find(({ id }) => id === event.target.value)
         if (type) {
-            sendMessageWithType('', type.api)
+            sendMessageWithType(type.message, 'set_search_type')
             setChatGraphSearchType(type)
         }
     }
 
     const handleChangeGraphSearchResponseType = (event: SelectChangeEvent) => {
         const type = GraphSearchResponseTypes.find(({ id }) => id === event.target.value)
-        type && setChatGraphSearchResponseType(type)
+        if (type) {
+            setChatGraphSearchResponseType(type)
+            if (chatGraphSearchType.id === 'local_search' || chatGraphSearchType.id === 'both') {
+                sendMessageWithType(type.id, 'set_graph_local_search_response_type')
+            }
+            if (chatGraphSearchType.id === 'global_search_advanced' || chatGraphSearchType.id === 'both') {
+                sendMessageWithType(type.id, 'set_graph_global_search_advanced_response_type')
+            }
+        }
     }
 
     return (
