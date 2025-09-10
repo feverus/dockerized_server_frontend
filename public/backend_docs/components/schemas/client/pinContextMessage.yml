@@ -1,0 +1,8 @@
+type: object
+description: Закрепление фрагмента документа как контекста для использования в предстоящем запросе.
+properties:
+  type:
+    type: string
+    const: "pin_context"
+  message:
+    $ref: "../common/searchResult.yml"

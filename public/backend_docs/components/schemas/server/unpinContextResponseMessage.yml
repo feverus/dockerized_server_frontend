@@ -1,0 +1,8 @@
+type: object
+description: Подтверждение, что фрагмент документа был успешно откреплен из будущего контекста.
+properties:
+  type:
+    type: string
+    const: "unpin_context"
+  text:
+    $ref: "../common/searchResult.yml"

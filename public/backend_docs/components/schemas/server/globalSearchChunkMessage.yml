@@ -1,0 +1,9 @@
+type: object
+description: Фрагмент (часть) потокового ответа от глобального поиска по графу знаний.
+properties:
+  type:
+    type: string
+    const: "global_search_chunk"
+  text:
+    type: string
+    example: "Это хороший вопрос!"

@@ -1,0 +1,10 @@
+type: object
+description: Установка типа ответа для глобального поиска по графу знаний.
+properties:
+  type:
+    type: string
+    const: "set_graph_global_search_advanced_response_type"
+  message:
+    type: string
+    description: "Тип ответа для глобального поиска по графу знаний. Возможные значения находятся в перечислении GraphSearchResponseType."
+    example: "Multiple Paragraphs"

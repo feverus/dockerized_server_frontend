@@ -1,0 +1,104 @@
+name: ServerToClientMessage
+title: Сообщение от сервера к клиенту
+summary: Любое сообщение, которое сервер может отправить клиенту.
+contentType: application/json
+payload:
+  oneOf:
+    - $ref: "../schemas/server/graphStatusMessage.yml"
+    - $ref: "../schemas/server/errorMessage.yml"
+    - $ref: "../schemas/server/infoMessage.yml"
+    - $ref: "../schemas/server/warningMessage.yml"
+    - $ref: "../schemas/server/completeMessage.yml"
+    - $ref: "../schemas/server/indexResponseMessage.yml"
+    - $ref: "../schemas/server/pinContextResponseMessage.yml"
+    - $ref: "../schemas/server/unpinContextResponseMessage.yml"
+    - $ref: "../schemas/server/getAllContextResponseMessage.yml"
+    - $ref: "../schemas/server/consoleMessage.yml"
+    - $ref: "../schemas/server/chunkMessage.yml"
+    - $ref: "../schemas/server/localSearchChunkMessage.yml"
+    - $ref: "../schemas/server/globalSearchChunkMessage.yml"
+examples:
+  - name: "Фрагмент ответа (chunk)"
+    payload:
+      type: "chunk"
+      text: "AsyncAPI — это "
+  - name: "Завершение генерации"
+    payload:
+      type: "complete"
+      text: "Генерация ответа завершена"
+  - name: "Текущий контекст будущего вопроса (только для дев-стенда (отладки))"
+    payload:
+      type: "console"
+      text:
+        "0":
+          chunk_text: "AsyncAPI — Swagger для брокеров сообщений. Документацию AsyncAPI описывают в формате YAML или JSON."
+          source: "habr_article_860604.txt"
+          similarity_score: 0.912
+        "1":
+          chunk_text: "Спецификация AsyncAPI позволяет описывать асинхронные API и управлять ими на протяжении всего их жизненного цикла."
+          source: "asyncapi_docs.md"
+          similarity_score: 0.899
+  - name: "Сообщение об ошибке"
+    payload:
+      type: "error"
+      text: "Чат-бот не готов ответить."
+  - name: "Список фрагментов документов, которые составляют контекст предстоящего запроса"
+    payload:
+      type: "get_all_context"
+      text:
+        "0":
+          chunk_text: "AsyncAPI — Swagger для брокеров сообщений. Документацию AsyncAPI описывают в формате YAML или JSON."
+          source: "habr_article_860604.txt"
+          similarity_score: 0.912
+        "1":
+          chunk_text: "Спецификация AsyncAPI позволяет описывать асинхронные API и управлять ими на протяжении всего их жизненного цикла."
+          source: "asyncapi_docs.md"
+          similarity_score: 0.899
+  - name: "Фрагмент потокового ответа от глобального поиска по графу знаний"
+    payload:
+      type: "global_search_chunk"
+      text: "Это хороший вопрос!"
+  - name: "Сообщение о статусе графа знаний."
+    payload:
+      type: "graph_status"
+      text:
+        "is_ready": "False"
+        "is_processing": "True"
+  - name: "Список наиболее похожих фрагментов документов (по умолчанию, 5 - длина закрепленного контекста)"
+    payload:
+      type: "index"
+      text:
+        "0":
+          chunk_text: "AsyncAPI — Swagger для брокеров сообщений. Документацию AsyncAPI описывают в формате YAML или JSON."
+          source: "habr_article_860604.txt"
+          similarity_score: 0.912
+        "1":
+          chunk_text: "Спецификация AsyncAPI позволяет описывать асинхронные API и управлять ими на протяжении всего их жизненного цикла."
+          source: "asyncapi_docs.md"
+          similarity_score: 0.899
+  - name: "Информационное сообщение от сервера"
+    payload:
+      type: "info"
+      text: "Установлен тип ответа подсистемы локального поиска по графу."
+  - name: "Фрагмент потокового ответа от локального поиска по графу знаний"
+    payload:
+      type: "local_search_chunk"
+      text: "Это хороший вопрос!"
+  - name: "Подтверждение, что фрагмент документа был успешно закреплен как часть будущего контекста."
+    payload:
+      type: "pin_context"
+      message:
+        chunk_text: "AsyncAPI — Swagger для брокеров сообщений."
+        source: "habr_article_860604.txt"
+        similarity_score: 0.912
+  - name: "Подтверждение, что фрагмент документа был успешно откреплен из будущего контекста"
+    payload:
+      type: "unpin_context"
+      message:
+        chunk_text: "AsyncAPI — Swagger для брокеров сообщений."
+        source: "habr_article_860604.txt"
+        similarity_score: 0.912
+  - name: "Предупреждение от сервера."
+    payload:
+      type: "warning"
+      text: "Граф знаний еще не готов для глобального поиска."

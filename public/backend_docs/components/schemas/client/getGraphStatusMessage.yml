@@ -1,0 +1,6 @@
+type: object
+description: Запрос на получение статуса графа знаний (готов ли он, в процессе ли обработки).
+properties:
+  type:
+    type: string
+    const: "get_graph_status"

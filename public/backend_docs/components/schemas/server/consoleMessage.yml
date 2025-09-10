@@ -1,0 +1,10 @@
+type: object
+description: Отладочное сообщение, отправляемое сервером. Не для использования в продакшене.
+properties:
+  type:
+    type: string
+    const: "console"
+  text:
+    type: array
+    items:
+      $ref: "../common/searchResult.yml"

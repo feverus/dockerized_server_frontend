@@ -1,0 +1,18 @@
+type: object
+description: Сообщение о статусе графа знаний.
+properties:
+  type:
+    type: string
+    const: "graph_status"
+  text:
+    oneOf:
+      - type: object
+        properties:
+          status: { const: "ready" }
+          message: { type: string }
+        example: { status: "ready", message: "Граф знаний готов к использованию" }
+      - type: object
+        properties:
+          is_ready: { type: boolean }
+          is_processing: { type: boolean }
+        example: { is_ready: true, is_processing: false }

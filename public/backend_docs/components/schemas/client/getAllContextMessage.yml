@@ -1,0 +1,6 @@
+type: object
+description: Запрос на получение всех текущих закрепленных фрагментов документов (контекста).
+properties:
+  type:
+    type: string
+    const: "get_all_context"

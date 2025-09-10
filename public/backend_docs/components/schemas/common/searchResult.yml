@@ -1,0 +1,10 @@
+type: object
+description: Стандартизированный объект, представляющий один результат поиска.
+properties:
+  chunk_text:
+    type: string
+  source:
+    type: string
+  similarity_score:
+    type: number
+    format: float

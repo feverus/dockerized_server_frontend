@@ -1,0 +1,9 @@
+type: object
+description: Фрагмент потокового ответа подсистемы семантического поиска от БЯМ.
+properties:
+  type:
+    type: string
+    const: "chunk"
+  text:
+    type: string
+    example: "AsyncAPI - это "

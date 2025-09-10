@@ -1,0 +1,10 @@
+type: object
+description: Запрос текущего закрепленного контекста будущего вопроса пользователя.
+properties:
+  type:
+    type: string
+    const: "index"
+  message:
+    type: string
+    description: Текст запроса для поиска похожих фрагментов документов.
+    example: "Расскажи про внедрение асинхронных API"

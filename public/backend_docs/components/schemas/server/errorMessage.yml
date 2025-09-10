@@ -1,0 +1,9 @@
+type: object
+description: Сообщение об ошибке от сервера.
+properties:
+  type:
+    type: string
+    const: "error"
+  text:
+    type: string
+    example: "Чат-бот не готов ответить."

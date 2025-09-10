@@ -1,0 +1,62 @@
+name: ClientToServerMessage
+title: Сообщение от клиента к серверу
+summary: Любое сообщение, которое клиент может отправить на сервер.
+contentType: application/json
+payload:
+  oneOf:
+    - $ref: "../schemas/client/indexMessage.yml"
+    - $ref: "../schemas/client/questionMessage.yml"
+    - $ref: "../schemas/client/pinContextMessage.yml"
+    - $ref: "../schemas/client/unpinContextMessage.yml"
+    - $ref: "../schemas/client/getAllContextMessage.yml"
+    - $ref: "../schemas/client/getGraphStatusMessage.yml"
+    - $ref: "../schemas/client/setGraphGlobalSearchAdvancedResponseTypeMessage.yml"
+    - $ref: "../schemas/client/setGraphLocalSearchResponseTypeMessage.yml"
+    - $ref: "../schemas/client/setSearchTypeMessage.yml"
+examples:
+  - name: "Запрос текущего закрепленного контекста предстоящего вопроса пользователя"
+    payload:
+      type: "get_all_context"
+      message: "Любое сообщение"
+  - name: "Запрос на получение статуса графа знаний"
+    payload:
+      type: "get_graph_status"
+      message: "Любое сообщение"
+  - name: "Запрос текущего закрепленного контекста предстоящего вопроса пользователя"
+    payload:
+      type: "index"
+      message: "Расскажи про внедрение асинхронных API"
+  - name: "Закрепление контекста"
+    payload:
+      type: "pin_context"
+      message:
+        chunk_text: "AsyncAPI — Swagger для брокеров сообщений."
+        source: "habr_article_860604.txt"
+        similarity_score: 0.912
+  - name: "Запрос пользователя"
+    payload:
+      type: "question"
+      message: "Какие преимущества у AsyncAPI по сравнению с OpenAPI?"
+  - name: "Установка типа ответа для глобального поиска по графу знаний"
+    payload:
+      type: "set_graph_global_search_advanced_response_type"
+      message: "Возможные значения находятся в перечислении GraphSearchResponseType, к примеру, Multiple Paragraphs."
+  - name: "Установка типа ответа для локального поиска по графу знаний"
+    payload:
+      type: "set_graph_local_search_response_type"
+      message: "Возможные значения находятся в перечислении GraphSearchResponseType, к примеру, Multiple Paragraphs."
+  - name: "Установка типов поиска, которые будут использоваться при ответе на вопрос подсистемой поиска ответа по графу знаний."
+    payload:
+      type: "set_search_type"
+      message: "Возможные значения (+ вариант ['None']) находятся в перечислении GraphSearchType, к примеру, ['LOCAL_SEARCH', 'GLOBAL_SEARCH_ADVANCED']"
+  - name: "Запрос статуса графа"
+    payload:
+      type: "get_graph_status"
+      message: "Любое сообщение"
+  - name: "Запрос статуса графа"
+    payload:
+      type: "unpin_context"
+      message:
+        chunk_text: "AsyncAPI — Swagger для брокеров сообщений."
+        source: "habr_article_860604.txt"
+        similarity_score: 0.912

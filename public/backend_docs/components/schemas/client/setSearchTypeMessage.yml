@@ -1,0 +1,10 @@
+type: object
+description: Установка типов поиска подсистемы поиска по графу знаний, которые будут использоваться при ответе на вопрос.
+properties:
+  type:
+    type: string
+    const: "set_search_type"
+  message:
+    type: array
+    items: { type: string }
+    example: ["LOCAL_SEARCH", "GLOBAL_SEARCH_ADVANCED"]

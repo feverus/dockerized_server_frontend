@@ -1,0 +1,10 @@
+type: object
+description: Ответ сервера на запрос `index` со списком найденных фрагментов.
+properties:
+  type:
+    type: string
+    const: "index"
+  text:
+    type: object
+    additionalProperties:
+      $ref: "../common/searchResult.yml"

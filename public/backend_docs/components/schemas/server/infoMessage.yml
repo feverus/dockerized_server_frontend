@@ -1,0 +1,9 @@
+type: object
+description: Информационное сообщение от сервера.
+properties:
+  type:
+    type: string
+    const: "info"
+  text:
+    type: string
+    example: "Установлен тип ответа подсистемы локального поиска по графу."
