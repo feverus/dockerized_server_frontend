@@ -4,13 +4,12 @@ import { Box, Typography, Avatar, Paper, CircularProgress } from '@mui/material'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
 
-import { useChatStore, type Message } from '../../store'
+import { useChatStore, type Message } from 'store'
+import { formatFullTime } from 'utils'
 import { Tag } from './tag'
 import { Timestamp } from './timestamp'
 import { DaySeparator } from './dayseparator'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './Terminal.module.css'
-import { formatFullTime } from '../../utils'
 
 export const Terminal = () => {
     const { messages, isLoading } = useChatStore()

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { useAuthStore } from '../../store'
-import { REFRESH_INTERVAL } from '../../assets'
+import { useAuthStore } from 'store'
+import { REFRESH_INTERVAL } from 'assets'
 import type { LoginUserProps } from './auth.types'
 
 const AUTH_API = import.meta.env.VITE_AUTH_API

@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 
-import { useChatStore } from '../../store'
+import { useChatStore } from 'store'
 import styles from './SystemMessage.module.css'
 
 export const SystemMessage = () => {

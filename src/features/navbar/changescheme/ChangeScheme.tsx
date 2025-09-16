@@ -2,8 +2,8 @@ import { MenuItem, Select, type SelectChangeEvent } from '@mui/material'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
 
-import { useSettingsStore } from '../../../store'
-import { SchemeTypes } from '../../../models'
+import { useSettingsStore } from 'store'
+import { SchemeTypes } from 'models'
 import styles from './ChangeScheme.module.css'
 
 const getIcon = (id: string) => {

@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { Box, CssBaseline } from '@mui/material'
 
-import { Navbar, Sidebar } from './features'
-import { LoginPage, ChatPage } from './pages'
-import { useAuthStore, useChatStore, useSettingsStore } from './store'
-import { getCommonSettings, getInputMessage, getSavedMessages, PrivateRoute, saveCommonSettings } from './utils'
-import { SchemeTypes } from './models'
-import { useAuthService } from './services'
+import { Navbar, Sidebar } from 'features'
+import { LoginPage, ChatPage } from 'pages'
+import { useAuthStore, useChatStore, useSettingsStore } from 'store'
+import { getCommonSettings, getInputMessage, getSavedMessages, PrivateRoute, saveCommonSettings } from 'utils'
+import { SchemeTypes } from 'models'
+import { useAuthService } from 'services'
 import './App.css'
 
 export default function App() {

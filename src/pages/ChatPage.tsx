@@ -4,9 +4,9 @@ import { Paper } from '@mui/material'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
-import { ChatHeader, ChatInput, SearchSettings, Suggestions, Terminal } from '../features'
-import { useAuthService } from '../services'
-import { REFRESH_INTERVAL } from '../assets'
+import { ChatHeader, ChatInput, SearchSettings, Suggestions, Terminal } from 'features'
+import { useAuthService } from 'services'
+import { REFRESH_INTERVAL } from 'assets'
 import styles from './ChatPage.module.css'
 
 export const ChatPage = () => {

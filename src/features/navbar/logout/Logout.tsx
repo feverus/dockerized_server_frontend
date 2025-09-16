@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
-import { useAuthService } from '../../../services'
+import { useAuthService } from 'services'
 
 export const Logout = () => {
     const { logoutUser } = useAuthService()

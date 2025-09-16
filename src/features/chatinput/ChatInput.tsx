@@ -1,8 +1,8 @@
 import { Box, TextField, IconButton } from '@mui/material'
 import SendIcon from '@mui/icons-material/Send'
 
-import { useWebSocketService } from '../../services'
-import { useChatStore } from '../../store'
+import { useWebSocketService } from 'services'
+import { useChatStore } from 'store'
 import styles from './ChatInput.module.css'
 
 export const ChatInput = () => {

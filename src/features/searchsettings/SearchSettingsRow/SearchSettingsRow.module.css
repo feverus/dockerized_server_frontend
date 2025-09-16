@@ -1,0 +1,20 @@
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 10px;
+  .checkbox {
+    flex: 0 0 40px;
+  }
+  .name {
+    flex: 1 1 auto;
+    text-align: right;
+  }
+  .response {
+    flex: 0 0 240px;
+    .select {
+      width: 100%;
+    }
+  }
+}

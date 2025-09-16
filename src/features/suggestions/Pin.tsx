@@ -1,8 +1,8 @@
 import { Chip } from '@mui/material'
 import PushPinIcon from '@mui/icons-material/PushPin'
 
-import { useWebSocketService } from '../../services'
-import type { Suggestion } from '../../store'
+import { useWebSocketService } from 'services'
+import type { Suggestion } from 'store'
 
 type PinProps = {
     pinned: Suggestion

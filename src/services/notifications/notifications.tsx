@@ -1,8 +1,8 @@
 import { Store } from 'react-notifications-component'
 
+import { useChatStore } from 'store'
 import { NotificationComponent } from './NotificationComponent'
 import type { AddNotificationProps } from './notifications.types'
-import { useChatStore } from '../../store'
 import styles from './NotificationComponent.module.css'
 
 export const useNotificationsService = () => {

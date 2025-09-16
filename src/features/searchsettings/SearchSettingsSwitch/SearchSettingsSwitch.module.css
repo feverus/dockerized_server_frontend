@@ -1,0 +1,14 @@
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: 4px 24px 4px 6px;
+  z-index: 10;
+  background-color: var(--borderColorSuggestions);
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0% 100%);
+  .caption {
+    font-weight: bold;
+  }
+}

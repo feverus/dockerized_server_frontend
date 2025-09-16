@@ -1,5 +1,5 @@
-import type { Message } from '../../../store'
-import { isSameDay } from '../../../utils'
+import type { Message } from 'store'
+import { isSameDay } from 'utils'
 import styles from './DaySeparator.module.css'
 
 type DaySeparatorProps = { messages: Message[]; index: number }

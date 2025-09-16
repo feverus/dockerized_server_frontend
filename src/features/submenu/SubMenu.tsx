@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
 import { Collapse, List } from '@mui/material'
 
-import type { SidebarDataItem } from '../../assets'
+import type { SidebarDataItem } from 'assets'
 import styles from './SubMenu.module.css'
 
 type SubMenuProps = {

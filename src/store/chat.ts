@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 
-import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from '../assets'
+import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, PINNED_SUGGESTIONS_KEY } from 'assets'
 
 type SeverityLevels = 'error' | 'success' | 'warning' | 'info'
 export type Suggestion = {

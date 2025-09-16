@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Box, TextField, FormControlLabel, Checkbox, Button, Grid, Typography } from '@mui/material'
 
-import { useAuthService } from '../../services'
+import { useAuthService } from 'services'
 
 export const LoginForm = () => {
     const { loginUser } = useAuthService()

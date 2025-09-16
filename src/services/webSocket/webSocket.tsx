@@ -1,7 +1,7 @@
 import { useCallback, useRef } from 'react'
 import _ from 'lodash'
 
-import { useChatStore, useWsStore, type Suggestion } from '../../store'
+import { useChatStore, useWsStore, type Suggestion } from 'store'
 import { useNotificationsService } from '../'
 
 const CHAT_API = import.meta.env.VITE_CHAT_API

@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
-import { useAuthStore } from '../store'
+import { useAuthStore } from 'store'
 
 export const PrivateRoute = () => {
     return <Outlet /> 

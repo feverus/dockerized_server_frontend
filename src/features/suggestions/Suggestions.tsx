@@ -1,6 +1,6 @@
 import { Paper, Box, Typography } from '@mui/material'
 
-import { useChatStore } from '../../store'
+import { useChatStore } from 'store'
 import { Pin } from './Pin'
 import { SuggestionsItem } from './suggestionsitem'
 import styles from './Suggestions.module.css'

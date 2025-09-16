@@ -1,5 +1,5 @@
-import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, SETTINGS_STORAGE_KEY, defaultSettings } from '../assets'
-import { useSettingsStore } from '../store'
+import { CHAT_INPUT_STORAGE_KEY, CHAT_STORAGE_KEY, SETTINGS_STORAGE_KEY, defaultSettings } from 'assets'
+import { useSettingsStore } from 'store'
 
 export const getSavedMessages = () => {
     try {

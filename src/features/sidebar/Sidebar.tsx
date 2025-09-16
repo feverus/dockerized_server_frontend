@@ -1,10 +1,10 @@
 import MuiList from '@mui/material/List'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Drawer, Divider, IconButton } from '@mui/material'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 import { SubMenu } from '../submenu'
-import { useAuthStore, useMenuStore } from '../../store'
-import { DRAWER_WIDTH, SidebarData } from '../../assets'
+import { useAuthStore, useMenuStore } from 'store'
+import { DRAWER_WIDTH, SidebarData } from 'assets'
 import styles from './Sidebar.module.css'
 
 export const Sidebar = () => {

@@ -2,8 +2,8 @@ import classNames from 'classnames'
 import { Box, IconButton } from '@mui/material'
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined'
 
-import { type Suggestion } from '../../../store'
-import { useWebSocketService } from '../../../services'
+import { type Suggestion } from 'store'
+import { useWebSocketService } from 'services'
 import styles from './SuggestionsItem.module.css'
 
 type SuggestionsItemProps = {

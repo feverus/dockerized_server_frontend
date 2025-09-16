@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 
-import { useChatStore } from '../../store'
+import { useChatStore } from 'store'
 
 export const ChatHeader = () => {
     const { setMessages } = useChatStore()

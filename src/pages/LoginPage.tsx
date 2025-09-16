@@ -8,8 +8,8 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
-import { Copyright, LoginForm } from '../features'
-import { useWsStore } from '../store'
+import { Copyright, LoginForm } from 'features'
+import { useWsStore } from 'store'
 
 const defaultTheme = createTheme()
 
