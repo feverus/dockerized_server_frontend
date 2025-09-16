@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Checkbox, Select, MenuItem, type SelectChangeEvent, Tooltip } from '@mui/material'
+import cn from 'classnames'
 
 import { GraphSearch, GraphSearchIds, GraphSearchResponse, GraphSearchResponseIds, type GraphSearchResponseIdType } from 'models'
 import { useWebSocketService } from 'services'
@@ -53,7 +54,7 @@ export const SearchSettingsHead = () => {
     }, [getEnabledGraphSearchIds, graphResponseMode])
 
     return (
-        <div className={styles.row}>
+        <div className={cn(styles.row, styles.head)}>
             <div className={styles.name}></div>
             <div className={styles.checkbox}>
                 <Tooltip title={checked ? 'Отключить все' : 'Выбрать все'} placement="top">

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import cn from 'classnames'
-import { Button, Paper } from '@mui/material'
+import { IconButton, Paper } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
 
 import { useChatStore, useSettingsStore } from 'store'
 import { GraphSearch, GraphSearchIds, GraphSearchResponse } from 'models'
@@ -36,17 +37,17 @@ export const SearchSettings = () => {
     const getOpened = () => (
         <Paper className={cn(styles.wrapper, styles.opened)} elevation={0}>
             <SearchSettingsSwitch />
+            <IconButton color="info" onClick={changeOpen} title="Применить настройки" size="small" className={styles.closeBtn}>
+                <CloseIcon />
+            </IconButton>
+
+            <div className={styles.verticalLine}></div>
+            <div className={styles.horizontalLine}></div>
             <div className={cn(styles.table, { [styles.disabled]: !isGraphEnabled })}>
                 <SearchSettingsHead />
                 {GraphSearchIds.map((graphSearchId) => (
                     <SearchSettingsRow graphSearchId={graphSearchId} key={graphSearchId} />
                 ))}
-            </div>
-
-            <div className={styles.closeBtn}>
-                <Button variant="outlined" onClick={changeOpen}>
-                    Ok
-                </Button>
             </div>
         </Paper>
     )

@@ -43,10 +43,10 @@
     }
   }
   .closeBtn {
-    flex: 1 1 auto;
-    display: flex;
-    justify-content: flex-end;
-    padding-top: 10px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 10;
   }
   .isGraphEnabled {
     label {
@@ -55,9 +55,29 @@
     }
   }
   .table {
+    color: var(--colorSearchSettings);
     display: flex;
     flex-direction: column;
     gap: 10px;
+    padding-top: 40px;
+  }
+  .verticalLine {
+    content: "";
+    width: 1px;
+    height: calc(100% - 70px);
+    border-right: 1px var(--borderColorSettings) solid;
+    position: absolute;
+    right: 308px;
+    bottom: 14px;
+  }
+  .horizontalLine {
+    content: "";
+    width: calc(100% - 20px);
+    height: 1px;
+    border-bottom: 1px var(--borderColorSettings) solid;
+    position: absolute;
+    right: 10px;
+    top: 108px;
   }
 }
 

@@ -5,6 +5,7 @@
   --bgColorMenu: #202030;
   --bgColorSearchSettings: #b3d6d6;
   --colorSearchSettings: #7d7d7d;
+  --borderColorSettings: #838686;
   --bgColorChatUser: #307090;
   --colorChatUser: #fefefe;
   --bgColorChatBot: #f0f0f0;
@@ -20,6 +21,7 @@
     --bgColorMenu: #202030;
     --bgColorSearchSettings: #004040;
     --colorSearchSettings: #959595;
+    --borderColorSettings: #507070;
     --bgColorChatUser: #103040;
     --colorChatUser: #a0a0a0;
     --bgColorChatBot: #202020;
