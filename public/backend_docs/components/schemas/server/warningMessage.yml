@@ -1,9 +1,0 @@
-type: object
-description: Предупреждение от сервера.
-properties:
-  type:
-    type: string
-    const: "warning"
-  text:
-    type: string
-    example: "Граф знаний еще не готов для глобального поиска."

@@ -1,9 +1,0 @@
-type: object
-description: Сообщение о завершении операции.
-properties:
-  type:
-    type: string
-    const: "complete"
-  text:
-    type: string
-    example: "Генерация ответа завершена"

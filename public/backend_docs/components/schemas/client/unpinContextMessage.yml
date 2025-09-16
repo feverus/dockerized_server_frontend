@@ -1,9 +1,0 @@
-type: object
-description: Открепление ранее закрепленного фрагмента документа из контекста поиска.
-properties:
-  type:
-    type: string
-    const: "unpin_context"
-  message:
-    description: Объект результата поиска, который нужно открепить.
-    $ref: "../common/searchResult.yml"
