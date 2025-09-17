@@ -1,7 +1,7 @@
 import { type SelectChangeEvent, Checkbox, Select, MenuItem } from '@mui/material'
 import { GraphSearch, GraphSearchResponse, GraphSearchResponseIds, type GraphSearchIdType, type GraphSearchResponseIdType } from 'models'
 import { useWebSocketService } from 'services'
-import { useSettingsStore } from 'store'
+import { useChatStore, useSettingsStore } from 'store'
 import styles from './SearchSettingsRow.module.css'
 
 type SearchSettingsRowProps = { graphSearchId: GraphSearchIdType }
@@ -10,11 +10,13 @@ export const SearchSettingsRow = ({ graphSearchId }: SearchSettingsRowProps) => 
     const { sendMessageWithType } = useWebSocketService()
     const { graphResponseMode, enableGraphResponse, disableGraphResponse, setGraphResponseMode, getEnabledGraphSearchIds } =
         useSettingsStore()
+    const setIsLoading = useChatStore((state) => state.setIsLoading)
 
     const checked = graphResponseMode.get(graphSearchId)?.enabled ?? false
     const graphSearchResponseId = graphResponseMode.get(graphSearchId)?.id ?? GraphSearchResponseIds[0]
 
     const graphSearchCheckboxClickHandler = () => {
+        setIsLoading(true)
         if (checked) {
             disableGraphResponse(graphSearchId)
             sendMessageWithType(
@@ -39,7 +41,7 @@ export const SearchSettingsRow = ({ graphSearchId }: SearchSettingsRowProps) => 
                 <Checkbox checked={checked} onClick={graphSearchCheckboxClickHandler} />
             </div>
             <div className={styles.response}>
-                <Select className={styles.select} value={graphSearchResponseId} onChange={responseSelectChangeHandler} variant='standard'>
+                <Select className={styles.select} value={graphSearchResponseId} onChange={responseSelectChangeHandler} variant="standard">
                     {GraphSearchResponseIds.map((id) => (
                         <MenuItem value={id} key={id}>
                             {GraphSearchResponse.get(id)?.name}

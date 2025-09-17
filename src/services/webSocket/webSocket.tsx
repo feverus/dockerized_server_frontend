@@ -96,6 +96,9 @@ export const useWebSocketService = () => {
                         break
                     }
                     case 'info': {
+                        if (response.text === 'Установлен тип поиска.') {
+                            setIsLoading(false)
+                        }
                         addNotification({
                             type: 'info',
                             message: response.text,

@@ -4,7 +4,7 @@ import cn from 'classnames'
 
 import { GraphSearch, GraphSearchIds, GraphSearchResponse, GraphSearchResponseIds, type GraphSearchResponseIdType } from 'models'
 import { useWebSocketService } from 'services'
-import { useSettingsStore } from 'store'
+import { useChatStore, useSettingsStore } from 'store'
 import styles from './SearchSettingsRow.module.css'
 
 export const SearchSettingsHead = () => {
@@ -19,6 +19,7 @@ export const SearchSettingsHead = () => {
         enableAllGraphResponse,
         disableAllGraphResponse,
     } = useSettingsStore()
+    const setIsLoading = useChatStore((state) => state.setIsLoading)
 
     const responseSelectChangeHandler = (event: SelectChangeEvent) => {
         setCommonGraphResponseMode(event.target.value as GraphSearchResponseIdType)
@@ -27,6 +28,7 @@ export const SearchSettingsHead = () => {
         })
     }
     const responseCheckboxClickHandler = () => {
+        setIsLoading(true)
         if (checked) {
             disableAllGraphResponse()
             sendMessageWithType(['None'], 'set_search_type')

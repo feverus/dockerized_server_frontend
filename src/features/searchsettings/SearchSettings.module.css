@@ -32,9 +32,8 @@
   transform-origin: center bottom;
   bottom: 0;
   z-index: 1000;
-  overflow: hidden;
   animation: expandHeight 300ms ease forwards;
-  padding: 15px 10px;
+  padding: 15px 10px 5px;
 
   .select {
     min-width: 240px;
@@ -60,32 +59,51 @@
     flex-direction: column;
     gap: 10px;
     padding-top: 40px;
+    min-width: 470px;
+    position: relative;
+  }
+  .tableWrapper {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    padding-bottom: 10px;
   }
   .verticalLine {
     content: "";
     width: 1px;
-    height: calc(100% - 70px);
-    border-right: 1px var(--borderColorSettings) solid;
+    height: calc(100% - 40px);
+    border-right: 1px var(--borderColorSettings) dashed;
     position: absolute;
-    right: 308px;
-    bottom: 14px;
+    right: 296px;
+    bottom: 0px;
   }
   .horizontalLine {
     content: "";
-    width: calc(100% - 20px);
+    width: 100%;
     height: 1px;
-    border-bottom: 1px var(--borderColorSettings) solid;
+    border-bottom: 1px var(--borderColorSettings) dashed;
     position: absolute;
-    right: 10px;
-    top: 108px;
+    right: 0px;
+    top: 90px;
   }
 }
 
 .disabled {
   pointer-events: none;
-  * {
-    filter: contrast(0.1);
-  }
+
+  filter: contrast(0.1);
+}
+.isLoading {
+  pointer-events: none;
+
+  filter: blur(1px);
+}
+.loader {
+  bottom: -18px;
+  width: calc(100% - 64px);
+  height: 17px !important;
+  border-radius: 4px;
+  color: var(--bgColorChatUser) !important;
 }
 
 @keyframes expandHeight {
