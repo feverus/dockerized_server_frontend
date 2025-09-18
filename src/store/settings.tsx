@@ -159,8 +159,8 @@ export const useSettingsStore = create(
             })
         },
         getEnabledGraphSearchIds: () =>
-            Array.from(get().graphResponseMode.values())
-                .filter((value) => value.enabled)
-                .map((value) => value.id),
+            Array.from(get().graphResponseMode.entries())
+                .filter(([, value]) => value.enabled)
+                .map(([key]) => key),
     })),
 )

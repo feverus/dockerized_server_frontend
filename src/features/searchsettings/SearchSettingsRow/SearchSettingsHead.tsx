@@ -2,7 +2,14 @@ import { useEffect, useState } from 'react'
 import { Checkbox, Select, MenuItem, type SelectChangeEvent, Tooltip } from '@mui/material'
 import cn from 'classnames'
 
-import { GraphSearch, GraphSearchIds, GraphSearchResponse, GraphSearchResponseIds, type GraphSearchResponseIdType } from 'models'
+import {
+    GraphSearch,
+    GraphSearchIds,
+    GraphSearchIdsEmptyArray,
+    GraphSearchResponse,
+    GraphSearchResponseIds,
+    type GraphSearchResponseIdType,
+} from 'models'
 import { useWebSocketService } from 'services'
 import { useChatStore, useSettingsStore } from 'store'
 import styles from './SearchSettingsRow.module.css'
@@ -31,10 +38,10 @@ export const SearchSettingsHead = () => {
         setIsLoading(true)
         if (checked) {
             disableAllGraphResponse()
-            sendMessageWithType(['None'], 'set_search_type')
+            sendMessageWithType(GraphSearchIdsEmptyArray, 'set_search_type')
         } else {
             enableAllGraphResponse()
-            sendMessageWithType(GraphSearchIds, 'set_search_type')
+            sendMessageWithType(GraphSearchIds.length ? GraphSearchIds : GraphSearchIdsEmptyArray, 'set_search_type')
         }
     }
 

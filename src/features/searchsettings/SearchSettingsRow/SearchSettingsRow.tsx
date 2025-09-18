@@ -1,5 +1,12 @@
 import { type SelectChangeEvent, Checkbox, Select, MenuItem } from '@mui/material'
-import { GraphSearch, GraphSearchResponse, GraphSearchResponseIds, type GraphSearchIdType, type GraphSearchResponseIdType } from 'models'
+import {
+    GraphSearch,
+    GraphSearchIdsEmptyArray,
+    GraphSearchResponse,
+    GraphSearchResponseIds,
+    type GraphSearchIdType,
+    type GraphSearchResponseIdType,
+} from 'models'
 import { useWebSocketService } from 'services'
 import { useChatStore, useSettingsStore } from 'store'
 import styles from './SearchSettingsRow.module.css'
@@ -19,13 +26,12 @@ export const SearchSettingsRow = ({ graphSearchId }: SearchSettingsRowProps) => 
         setIsLoading(true)
         if (checked) {
             disableGraphResponse(graphSearchId)
-            sendMessageWithType(
-                getEnabledGraphSearchIds().filter((id) => id !== graphSearchId),
-                'set_search_type',
-            )
+            const newIds = getEnabledGraphSearchIds().filter((id) => id !== graphSearchId)
+            sendMessageWithType(newIds.length ? newIds : GraphSearchIdsEmptyArray, 'set_search_type')
         } else {
             enableGraphResponse(graphSearchId)
-            sendMessageWithType([...getEnabledGraphSearchIds(), graphSearchId], 'set_search_type')
+            const newIds = getEnabledGraphSearchIds()
+            sendMessageWithType(newIds.length ? newIds : GraphSearchIdsEmptyArray, 'set_search_type')
         }
     }
 
