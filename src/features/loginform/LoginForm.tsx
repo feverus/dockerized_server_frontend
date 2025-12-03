@@ -1,14 +1,13 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Box, TextField, FormControlLabel, Checkbox, Button, Grid, Typography } from '@mui/material'
+import { Box, TextField, Button } from '@mui/material'
 
 import { useAuthService } from 'services'
+import styles from './LoginForm.module.css'
 
 export const LoginForm = () => {
     const { loginUser } = useAuthService()
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [remember, setRemember] = useState(false)
 
     return (
         <Box sx={{ mt: 1 }}>
@@ -23,6 +22,7 @@ export const LoginForm = () => {
                 autoFocus
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
+                className={styles.textField}
             />
             <TextField
                 margin="normal"
@@ -35,32 +35,11 @@ export const LoginForm = () => {
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className={styles.textField}
             />
-            <FormControlLabel
-                control={<Checkbox id="remember" color="primary" value={remember} onChange={(e) => setRemember(e.target.checked)} />}
-                label="Запомнить меня"
-            />
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                onClick={() => loginUser({ username, password, remember })}
-            >
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={() => loginUser({ username, password })}>
                 Войти
             </Button>
-            <Grid container>
-                <Grid item xs={6}>
-                    <Link to="#">
-                        <Typography variant="body2">Забыли пароль?</Typography>
-                    </Link>
-                </Grid>
-                <Grid item xs={6}>
-                    <Link to="#">
-                        <Typography variant="body2">Нет аккаунта? Зарегистрируйтесь!</Typography>
-                    </Link>
-                </Grid>
-            </Grid>
         </Box>
     )
 }

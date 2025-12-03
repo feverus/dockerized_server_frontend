@@ -1,24 +1,12 @@
-import { useEffect, useRef } from 'react'
 import Split from 'react-split'
 import { Paper } from '@mui/material'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
 import { ChatHeader, ChatInput, SearchSettings, Suggestions, Terminal } from 'features'
-import { useAuthService } from 'services'
-import { REFRESH_INTERVAL } from 'assets'
 import styles from './ChatPage.module.css'
 
 export const ChatPage = () => {
-    const interval = useRef<NodeJS.Timer | null>(null)
-    const { updateToken } = useAuthService()
-
-    // Первоначальный запуск обновления токена
-    useEffect(() => {
-        interval.current && clearInterval(interval.current)
-        interval.current = setTimeout(() => updateToken(), REFRESH_INTERVAL)
-    }, [updateToken])
-
     return (
         <>
             <ReactNotifications className={'notificationContainer'} />

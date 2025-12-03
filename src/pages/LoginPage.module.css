@@ -1,0 +1,80 @@
+body {
+  background-color: #e5e5e5 !important;
+}
+main {
+  background-color: transparent !important;
+}
+@media (min-height: 600px) {
+  .body {
+    overflow-y: hidden;
+  }
+}
+@media (min-width: 500px) {
+  .body {
+    overflow-x: hidden;
+  }
+}
+
+.login_page_header {
+  display: flex;
+  justify-content: flex-start;
+  position: fixed;
+  width: 100%;
+  z-index: 1100;
+}
+
+.login_page_error {
+  margin: 0;
+  color: red;
+}
+
+.login_page_content {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  top: 30%;
+  width: 100%;
+  align-items: center;
+}
+
+.login_page_title {
+  font-size: 36px;
+  font-weight: 700;
+  background: linear-gradient(0deg, #e5e5e54d 0%, #e5e5e5 50%, #e5e5e54d 100%);
+  padding: 10px;
+  margin: 0;
+  text-align: center;
+  line-height: normal;
+}
+
+.login_page_auth_title {
+  margin-top: 80px;
+  font-size: 32px;
+  line-height: 28px;
+  font-weight: 700;
+  background: linear-gradient(0deg, #e5e5e54d 0%, #e5e5e5 50%, #e5e5e54d 100%);
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+.login_page_auth_form {
+  width: 450px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.login_page_auth_submit {
+  width: 255px;
+}
+
+.login_page_auth_form_error {
+  border: 1px solid red !important;
+}
+
+.login_page_version {
+  margin-top: 178px;
+  font-size: 20px;
+  line-height: 17px;
+  font-weight: 400;
+  color: #00000080;
+}

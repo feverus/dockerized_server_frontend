@@ -1,39 +1,47 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAuthStore } from 'store'
-import { REFRESH_INTERVAL } from 'assets'
 import type { LoginUserProps } from './auth.types'
+import { useNotificationsService } from 'services/notifications'
 
 const AUTH_API = import.meta.env.VITE_AUTH_API
 
 export const useAuthService = () => {
     const navigate = useNavigate()
-    const { authTokens, initialized, setAuthTokens, setUser, setInitialized } = useAuthStore()
-    const interval = useRef<NodeJS.Timer | null>(null)
+    const { initialized, setUser, setInitialized } = useAuthStore()
+    const { addNotification } = useNotificationsService()
 
     const loginUser = async (props: LoginUserProps) => {
+        const body = new URLSearchParams({
+            username: props.username,
+            password: props.password,
+        })
         const response = await fetch(`${AUTH_API}login`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
             },
             credentials: 'include',
-            body: JSON.stringify({ username: props.username, password: props.password, stay_logged_in: props.remember }),
+            body,
         })
+
+        //временно для отладки на localhost
+        /* document.cookie =
+            'session=t9hVbOuENafV8WxSbqhM7ILxjGqnBh6JDtz5ROXX5Cm/cKb1yEorIhXoHKv0VYLKKPjOTQSQR4j3Gs2WCd4WvJvjaTX6icLuAu7Fbo/R0VhIfGjtR7WzqeAaxlOTsFmChv3/p8z+J8++CVlipf0WTFHzfVSatTId; expires=Thu, 01 Jan 2070 00:00:00 UTC; path=/; domain=localhost;' */
+
         if (response.status === 401) {
-            alert('Указаны несуществующие данные авторизации')
+            addNotification({ type: 'error', message: 'Указаны несуществующие данные авторизации', autoHideDuration: 0 })
             return
         }
         try {
             const data = await response.json()
-            if (Object.prototype.hasOwnProperty.call(data, 'access') && Object.prototype.hasOwnProperty.call(data, 'user')) {
-                setAuthTokens(data.access)
-                localStorage.setItem('access', JSON.stringify(data.access))
-                setUser(data.user)
+            if (Object.prototype.hasOwnProperty.call(data, 'response') && data.response === 'ok') {
+                setUser(props.username)
+                localStorage.setItem('username', props.username)
                 navigate('/profile')
             } else {
-                alert('Something went wrong!')
+                addNotification({ type: 'error', message: `Ошибка авторизации, ответ сервера: ${data}`, autoHideDuration: 0 })
             }
         } catch (e) {
             console.error(e)
@@ -41,9 +49,9 @@ export const useAuthService = () => {
     }
 
     const logoutUser = useCallback(async () => {
-        setAuthTokens(null)
         setUser(null)
-        localStorage.removeItem('access')
+        localStorage.removeItem('username')
+
         const response = await fetch(`${AUTH_API}logout`, {
             method: 'POST',
             headers: {
@@ -53,91 +61,28 @@ export const useAuthService = () => {
             body: null,
         })
         try {
-            const data = await response.json()
-            console.log(data)
+            console.log(response)
         } catch (e) {
             console.error(e)
         }
         navigate('/login')
-    }, [navigate, setAuthTokens, setUser])
-
-    const updateToken = useCallback(async () => {
-        if (!authTokens) {
-            return
-        }
-        const response = await fetch(`${AUTH_API}refresh`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            //body: JSON.stringify({ access: authTokens }),
-        })
-        try {
-            const data = await response.json()
-            if (Object.prototype.hasOwnProperty.call(data, 'access')) {
-                setAuthTokens(data.access)
-                localStorage.setItem('access', JSON.stringify(data.access))
-                interval.current = setTimeout(() => updateToken(), REFRESH_INTERVAL)
-            } else {
-                logoutUser()
-            }
-        } catch (e) {
-            console.error(e)
-            logoutUser()
-        }
-    }, [authTokens, logoutUser, setAuthTokens])
-
-    const getUsername = useCallback(
-        async (authTokens: string | null) => {
-            if (!authTokens) {
-                return ''
-            }
-            try {
-                const response = await fetch(`${AUTH_API}get_user_profile`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: 'Bearer ' + String(authTokens),
-                    },
-                    credentials: 'include',
-                })
-                if (response.status === 200) {
-                    const data = await response.json()
-                    return data.user
-                } else if (response.statusText === 'Unauthorized') {
-                    logoutUser()
-                    return ''
-                } else {
-                    throw new Error('Ответ сети был не ok.')
-                }
-            } catch (error) {
-                console.log('Возникла проблема с вашим fetch запросом: ', error instanceof Error ? error.message : error)
-                return ''
-            }
-        },
-        [logoutUser],
-    )
-
-    const init = useCallback(() => {
-        const authTokens = localStorage.getItem('access')
-        authTokens && setAuthTokens(authTokens)
-        setInitialized(true)
-    }, [setAuthTokens, setInitialized])
+    }, [navigate, setUser])
 
     useEffect(() => {
-        if (!initialized) {
-            init()
+        if (initialized) {
+            return
         }
-        return () => {
-            interval.current && clearInterval(interval.current)
+        const username = localStorage.getItem('username')
+        if (username) {
+            setUser(username)
+        } else {
+            logoutUser()
         }
-    }, [init, initialized])
+        setInitialized(true)
+    }, [initialized, logoutUser, setInitialized, setUser])
 
     return {
         loginUser,
         logoutUser,
-        getUsername,
-        updateToken,
     }
 }

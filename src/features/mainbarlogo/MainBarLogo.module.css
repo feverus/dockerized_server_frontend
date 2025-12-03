@@ -1,0 +1,29 @@
+.wrapper {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+.logoImg {
+  img {
+    height: 70px;
+    margin: 10px 20px 0 50px;
+  }
+  &:after {
+    content: "";
+    height: 60%;
+    width: 1px;
+    position: absolute;
+    left: 132px;
+    top: 20%;
+    background-color: #333333;
+  }
+}
+
+.logoWords {
+  color: #333333;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}

@@ -8,7 +8,6 @@ import MuiAppBar from '@mui/material/AppBar'
 import { SubMenu } from '../submenu'
 import { DRAWER_WIDTH } from '../../assets'
 import { useMenuStore, useAuthStore } from '../../store'
-import { useAuthService } from '../../services'
 import { SidebarData } from '../../assets/SidebarData'
 import { SystemMessage } from '../systemmessage'
 import { Logout } from './logout'
@@ -20,7 +19,6 @@ export const Navbar = () => {
     const theme = useTheme()
     const { isMenuOpened, setIsMenuOpened } = useMenuStore()
     const { user } = useAuthStore()
-    const { getUsername } = useAuthService()
     const [greeting, setGreeting] = React.useState('')
 
     const trigger = useScrollTrigger({
@@ -53,8 +51,8 @@ export const Navbar = () => {
     }))
 
     useEffect(() => {
-        getUsername(useAuthStore.getState().authTokens).then((name) => setGreeting(returnGreeting(name)))
-    }, [getUsername])
+        setGreeting(returnGreeting(user ?? undefined))
+    }, [user])
 
     if (!user) {
         return null
