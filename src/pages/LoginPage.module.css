@@ -32,7 +32,7 @@ main {
   display: flex;
   position: absolute;
   flex-direction: column;
-  top: 30%;
+  top: 25%;
   width: 100%;
   align-items: center;
 }
@@ -67,14 +67,8 @@ main {
   width: 255px;
 }
 
-.login_page_auth_form_error {
-  border: 1px solid red !important;
-}
-
 .login_page_version {
-  margin-top: 178px;
-  font-size: 20px;
-  line-height: 17px;
-  font-weight: 400;
-  color: #00000080;
+  position: fixed;
+  bottom: 10px;
+  pointer-events: none;
 }

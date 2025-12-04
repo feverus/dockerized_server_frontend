@@ -27,9 +27,8 @@ export const LoginPage = () => {
             <main>
                 <CanvasAtom />
                 <div className={styles.login_page_content}>
-                    <p className={styles.login_page_title}>СПЖЦ.AI</p>
+                    <p className={styles.login_page_title}>{import.meta.env.VITE_APP_NAME}</p>
                     <p className={styles.login_page_auth_title}>Авторизация</p>
-                    <p id="error" className={styles.login_page_error}></p>
                     <LoginForm />
                     <p id="version" className={styles.login_page_version}>
                         <Copyright />

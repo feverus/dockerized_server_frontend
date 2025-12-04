@@ -8,7 +8,7 @@ export function MainBarLogo() {
             <div className={styles.logoImg}>
                 <img src="/logotype.png" className={styles.logo} />
             </div>
-            <div className={styles.logoWords}>СПЖЦ.AI</div>
+            <div className={styles.logoWords}>{import.meta.env.VITE_APP_NAME}</div>
         </Link>
     )
 }
