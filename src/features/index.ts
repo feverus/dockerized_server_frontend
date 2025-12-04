@@ -1,4 +1,4 @@
-export * from './canvasAtom'
+export * from './canvasatom'
 export * from './chatheader'
 export * from './chatinput'
 export * from './copyright'

@@ -5,8 +5,8 @@ import CloseIcon from '@mui/icons-material/Close'
 
 import { useChatStore, useSettingsStore } from 'store'
 import { GraphSearch, GraphSearchIds, GraphSearchResponse } from 'models'
-import { SearchSettingsHead, SearchSettingsRow } from './SearchSettingsRow'
-import { SearchSettingsSwitch } from './SearchSettingsSwitch'
+import { SearchSettingsHead, SearchSettingsRow } from './searchsettingsrow'
+import { SearchSettingsSwitch } from './searchsettingsswitch'
 import styles from './SearchSettings.module.css'
 
 export const SearchSettings = () => {
