@@ -1,5 +1,7 @@
 import { useRef, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
 import { Box, Typography, Avatar, Paper, CircularProgress } from '@mui/material'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import PersonIcon from '@mui/icons-material/Person'
@@ -53,7 +55,7 @@ export const Terminal = () => {
                             maxWidth: '80%',
                         }}
                     >
-                        <ReactMarkdown>{message.content}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
 
                         {message.tag && <Tag tag={message.tag} />}
 

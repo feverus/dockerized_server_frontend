@@ -3,10 +3,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { ReactNotifications } from 'react-notifications-component'
 import 'react-notifications-component/dist/theme.css'
 
-import { Copyright, LoginForm } from 'features'
-import { CanvasAtom } from 'features/canvasAtom'
+import { Copyright, LoginForm, CanvasAtom, MainBarLogo } from 'features'
 import { useWsStore } from 'store'
-import { MainBarLogo } from 'features/mainbarlogo'
 import styles from './LoginPage.module.css'
 
 const defaultTheme = createTheme()
