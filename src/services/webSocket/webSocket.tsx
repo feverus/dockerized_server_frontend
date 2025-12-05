@@ -56,11 +56,14 @@ export const useWebSocketService = () => {
             try {
                 const response = JSON.parse(event.data)
                 const timestamp = new Date().getTime()
-                console.log('🚀 onMessage:', response)
                 switch (response.type) {
                     case 'local_search_chunk':
                     case 'global_search_chunk':
                     case 'chunk': {
+                        if (!response.text.length) {
+                            // Пропускаем пустые чанки
+                            break
+                        }
                         const newMessages = [...useChatStore.getState().messages]
                         const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
                         const sameTag = (lastMessage?.tag ?? '') === response.type
