@@ -58,19 +58,7 @@ export const useWebSocketService = () => {
                 const timestamp = new Date().getTime()
                 console.log('🚀 onMessage:', response)
                 switch (response.type) {
-                    case 'local_search_chunk': {
-                        const newMessages = [...useChatStore.getState().messages]
-                        const lastMessage = newMessages.length > 0 ? newMessages[newMessages.length - 1] : null
-                        newMessages.push({
-                            type: 'bot',
-                            content: response.text + '\n',
-                            tag: response.type,
-                            timestamp,
-                            duration: timestamp - (lastMessage?.timestamp ?? 0),
-                        })
-                        setMessages(newMessages)
-                        break
-                    }
+                    case 'local_search_chunk':
                     case 'global_search_chunk':
                     case 'chunk': {
                         const newMessages = [...useChatStore.getState().messages]

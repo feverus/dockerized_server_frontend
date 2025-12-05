@@ -33,6 +33,7 @@ export default function App() {
         if (!init) {
             return
         }
+        document.title = import.meta.env.VITE_APP_NAME
         SchemeTypes.forEach(({ id }) => {
             document.body.classList.remove(id)
         })
